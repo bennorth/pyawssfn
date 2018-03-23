@@ -1,5 +1,7 @@
 import pytest
 import analyse_text as A
+import pysfn as PSF
+
 
 class TestAnalysis:
     def test_get_summary(self):
@@ -36,3 +38,11 @@ class TestAnalysis:
         got = A.summarise('a short example')
         assert got == ('text starts with a, has 15 chars,'
                        ' 5 vowels, and 2 spaces')
+
+    def test_summary_too_short(self):
+        with pytest.raises(PSF.Fail, match='text too short'):
+            A.summarise('')
+
+    def test_summary_wrong_start(self):
+        with pytest.raises(PSF.Fail, match='wrong starting letter'):
+            A.summarise('do not handle starting with "d"')
