@@ -60,4 +60,8 @@ class TestComparison:
 
     @classmethod
     def from_ast_node(cls, nd):
-        return cls(psf_attr(nd.func), chained_key(nd.args[0]), nd.args[1].s)
+        if isinstance(nd, ast.Call) and len(nd.args) == 2:
+            return cls(psf_attr(nd.func),
+                       chained_key(nd.args[0]),
+                       nd.args[1].s)
+        raise ValueError('expected function-call PSF.something(...)')
