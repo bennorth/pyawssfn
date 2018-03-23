@@ -71,6 +71,24 @@ class TestComparison:
         raise ValueError('expected function-call PSF.something(...)')
 
 
+@attr.s
+class TestCombinator:
+    opname = attr.ib()
+    values = attr.ib()
+
+    @classmethod
+    def from_ast_node(cls, nd):
+        if isinstance(nd, ast.BoolOp):
+            if isinstance(nd.op, ast.Or):
+                opname = 'Or'
+            elif isinstance(nd.op, ast.And):
+                opname = 'And'
+            else:
+                raise ValueError('expected Or or And')
+            return cls(opname, lmap(ChoiceCondition.from_ast_node, nd.values))
+        raise ValueError('expected BoolOp')
+
+
 class ChoiceCondition:
     @staticmethod
     def from_ast_node(nd):
