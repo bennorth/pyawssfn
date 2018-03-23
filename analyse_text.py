@@ -16,3 +16,7 @@ def augment_summary(text, summary):
 
 def get_n_vowels(text):
     return sum(text.count(v) for v in 'aeiou')
+
+
+def get_n_spaces(text):
+    return text.count(' ')
