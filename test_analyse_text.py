@@ -18,3 +18,8 @@ class TestAnalysis:
     def test_get_n_vowels(self):
         assert A.get_n_vowels('hello world') == 3
         assert A.get_n_vowels('rhythms') == 0
+
+    def test_get_n_spaces(self):
+        assert A.get_n_spaces('hello world') == 1
+        assert A.get_n_spaces('goodbye') == 0
+        assert A.get_n_spaces('once upon a time') == 3
