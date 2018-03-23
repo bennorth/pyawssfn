@@ -12,3 +12,7 @@ def augment_summary(text, summary):
     aug_summary = dict(summary)
     aug_summary['n_characters'] = len(text)
     return aug_summary
+
+
+def get_n_vowels(text):
+    return sum(text.count(v) for v in 'aeiou')
