@@ -31,3 +31,15 @@ class TestSupportFunctions:
     def test_simple_chained_key(self):
         val = expr_value('foo')
         assert C.chained_key(val) == ['foo']
+
+    @pytest.mark.parametrize(
+        'text',
+        ['1 + 1',
+         'some_dict[3]["foo"]',
+         'some_obj[slice_lb:slice_ub]',
+         'some_obj.attrib_access']
+    )
+    def test_chained_key_bad_input(self, text):
+        val = expr_value(text)
+        with pytest.raises(ValueError):
+            C.chained_key(val)
