@@ -8,3 +8,9 @@ class TestAnalysis:
     def test_get_summary_too_short(self):
         with pytest.raises(A.TextTooShortError):
             A.get_summary('')
+
+    def test_augment_summary(self):
+        summary = {'head': 'h'}
+        aug_summary = A.augment_summary('hello world', summary)
+        assert aug_summary['head'] == 'h'  # Original data should remain
+        assert aug_summary['n_characters'] == 11
