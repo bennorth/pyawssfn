@@ -31,3 +31,8 @@ class TestAnalysis:
                 == ('text starts with h,'
                     ' has 10 chars,'
                     ' 42 vowels, and 99 spaces'))
+
+    def test_summary(self):
+        got = A.summarise('a short example')
+        assert got == ('text starts with a, has 15 chars,'
+                       ' 5 vowels, and 2 spaces')
