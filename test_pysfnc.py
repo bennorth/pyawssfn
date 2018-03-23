@@ -61,3 +61,12 @@ class TestChoice:
     def test_chained_comparison(self):
         self._test_comparison('PSF.StringEquals(foo["bar"], "baz")',
                               'StringEquals', ['foo', 'bar'], 'baz')
+
+    @pytest.mark.parametrize(
+        'text',
+        ['1 == 1', 'random_check(a, b)']
+    )
+    def test_comparison_bad_input(self, text):
+        val = expr_value(text)
+        with pytest.raises(ValueError):
+            C.TestComparison.from_ast_node(val)
