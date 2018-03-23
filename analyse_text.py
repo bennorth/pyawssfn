@@ -20,3 +20,16 @@ def get_n_vowels(text):
 
 def get_n_spaces(text):
     return text.count(' ')
+
+
+def format_result(summary, infos):
+    """
+    Expect inputs of:
+
+    summary --- dict with 'head' and 'n_characters' as keys
+    infos --- list of two elements, each a number
+    """
+    return (f'text starts with {summary["head"]},'
+            f' has {summary["n_characters"]} chars,'
+            f' {infos[0]} vowels, and'
+            f' {infos[1]} spaces')
