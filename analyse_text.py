@@ -38,6 +38,10 @@ def format_result(summary, infos):
             f' {infos[1]} spaces')
 
 
+def format_c_result(summary):
+    return f'text starts with "c"; look: "{summary["head"]}"'
+
+
 def summarise(text):
     try:
         summary = get_summary(text)
@@ -59,6 +63,9 @@ def summarise(text):
         more_info = PSF.parallel(get_n_vowels_task, get_n_spaces_task)
 
         result = format_result(summary, more_info)
+    #
+    elif PSF.StringEquals(summary['head'], 'c'):
+        result = format_c_result(summary)
     #
     else:
         raise PSF.Fail('MalformedText', 'wrong starting letter')
