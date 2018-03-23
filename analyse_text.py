@@ -1,3 +1,6 @@
+import pysfn as PSF
+
+
 class TextTooShortError(Exception):
     pass
 
@@ -33,3 +36,31 @@ def format_result(summary, infos):
             f' has {summary["n_characters"]} chars,'
             f' {infos[0]} vowels, and'
             f' {infos[1]} spaces')
+
+
+def summarise(text):
+    try:
+        summary = get_summary(text)
+    except TextTooShortError:
+        raise PSF.Fail('MalformedText', 'text too short')
+
+    if (PSF.StringEquals(summary['head'], 'a')
+            or PSF.StringEquals(summary['head'], 'b')):
+        summary = augment_summary(text, summary)
+
+        def get_n_vowels_task():
+            result = get_n_vowels(text)
+            return result
+        #
+        def get_n_spaces_task():
+            result = get_n_spaces(text)
+            return result
+        #
+        more_info = PSF.parallel(get_n_vowels_task, get_n_spaces_task)
+
+        result = format_result(summary, more_info)
+    #
+    else:
+        raise PSF.Fail('MalformedText', 'wrong starting letter')
+
+    return result
