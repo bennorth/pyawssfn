@@ -43,3 +43,19 @@ class TestSupportFunctions:
         val = expr_value(text)
         with pytest.raises(ValueError):
             C.chained_key(val)
+
+
+class TestChoice:
+    def test_comparison(self):
+        val = expr_value('PSF.StringEquals(foo, "bar")')
+        cmp = C.TestComparison.from_ast_node(val)
+        assert cmp.predicate_name == 'StringEquals'
+        assert cmp.predicate_variable == ['foo']
+        assert cmp.predicate_literal == 'bar'
+
+    def test_chained_comparison(self):
+        val = expr_value('PSF.StringEquals(foo["bar"], "baz")')
+        cmp = C.TestComparison.from_ast_node(val)
+        assert cmp.predicate_name == 'StringEquals'
+        assert cmp.predicate_variable == ['foo', 'bar']
+        assert cmp.predicate_literal == 'baz'
