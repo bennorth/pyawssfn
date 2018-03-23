@@ -39,6 +39,10 @@ class TestAnalysis:
         assert got == ('text starts with a, has 15 chars,'
                        ' 5 vowels, and 2 spaces')
 
+    def test_c_summary(self):
+        got = A.summarise('choose wisely')
+        assert got == 'text starts with "c"; look: "c"'
+
     def test_summary_too_short(self):
         with pytest.raises(PSF.Fail, match='text too short'):
             A.summarise('')
