@@ -1,4 +1,5 @@
 import ast
+import attr
 
 
 ########################################################################
@@ -47,3 +48,16 @@ def chained_key(nd):
                     prefix = chained_key(nd.value)
                 return prefix + [suffix]
     raise ValueError('expected chained lookup via strings on name')
+
+
+########################################################################
+
+@attr.s
+class TestComparison:
+    predicate_name = attr.ib()
+    predicate_variable = attr.ib()
+    predicate_literal = attr.ib()
+
+    @classmethod
+    def from_ast_node(cls, nd):
+        return cls(psf_attr(nd.func), chained_key(nd.args[0]), nd.args[1].s)
