@@ -23,3 +23,11 @@ class TestAnalysis:
         assert A.get_n_spaces('hello world') == 1
         assert A.get_n_spaces('goodbye') == 0
         assert A.get_n_spaces('once upon a time') == 3
+
+    def test_format_result(self):
+        summary = {'head': 'h', 'n_characters': 10}
+        infos = [42, 99]
+        assert (A.format_result(summary, infos)
+                == ('text starts with h,'
+                    ' has 10 chars,'
+                    ' 42 vowels, and 99 spaces'))
