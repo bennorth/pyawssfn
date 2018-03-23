@@ -65,3 +65,11 @@ class TestComparison:
                        chained_key(nd.args[0]),
                        nd.args[1].s)
         raise ValueError('expected function-call PSF.something(...)')
+
+
+class ChoiceCondition:
+    @staticmethod
+    def from_ast_node(nd):
+        if isinstance(nd, ast.Call):
+            return TestComparison.from_ast_node(nd)
+        raise ValueError('expected Call')
