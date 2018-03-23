@@ -72,7 +72,7 @@ class TestChoice:
         'text',
         ['1 == 1', 'random_check(a, b)']
     )
-    def test_comparison_bad_input(self, text):
+    def test_comparison_bad_input(self, cmp_class, text):
         val = expr_value(text)
         with pytest.raises(ValueError):
-            C.TestComparison.from_ast_node(val)
+            cmp_class.from_ast_node(val)
