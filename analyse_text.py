@@ -42,6 +42,7 @@ def format_c_result(summary):
     return f'text starts with "c"; look: "{summary["head"]}"'
 
 
+@PSF.main
 def summarise(text):
     try:
         summary = get_summary(text)

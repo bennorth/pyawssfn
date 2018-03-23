@@ -19,3 +19,7 @@ def parallel(*funs):
 
 def with_retry_spec(fun, args, *retry_specs):
     return fun(*args)
+
+
+def main(fun):
+    return fun
