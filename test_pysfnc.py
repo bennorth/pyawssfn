@@ -96,3 +96,12 @@ class TestChoice:
         assert choice.values[1].predicate_name == 'StringEquals'
         assert choice.values[1].predicate_variable == ['foo', 'bar']
         assert choice.values[1].predicate_literal == 'y'
+
+    @pytest.mark.parametrize(
+        'text',
+        ['1 == 1', 'random_check(a, b)', 'x < 77']
+    )
+    def test_combinator_bad_input(self, comb_class, text):
+        val = expr_value(text)
+        with pytest.raises(ValueError):
+            comb_class.from_ast_node(val)
