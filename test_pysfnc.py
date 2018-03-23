@@ -23,3 +23,11 @@ class TestSupportFunctions:
         with pytest.raises(ValueError):
             C.psf_attr(val)
         assert C.psf_attr(val, raise_if_not=False) is None
+
+    def test_chained_key(self):
+        val = expr_value('foo["bar"]["baz"]')
+        assert C.chained_key(val) == ['foo', 'bar', 'baz']
+
+    def test_simple_chained_key(self):
+        val = expr_value('foo')
+        assert C.chained_key(val) == ['foo']
