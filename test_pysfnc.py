@@ -50,6 +50,10 @@ class TestChoice:
     def cmp_class(self, request):
         return request.param
 
+    @pytest.fixture(scope='module', params=[C.TestCombinator, C.ChoiceCondition])
+    def comb_class(self, request):
+        return request.param
+
     @staticmethod
     def _test_comparison(cmp_class, text, name, variable, literal):
         val = expr_value(text)
@@ -76,3 +80,19 @@ class TestChoice:
         val = expr_value(text)
         with pytest.raises(ValueError):
             cmp_class.from_ast_node(val)
+
+    @pytest.mark.parametrize(
+        'op, exp_opname',
+        [('or', 'Or'), ('and', 'And')]
+    )
+    def test_combinator(self, comb_class, op, exp_opname):
+        val = expr_value(f'PSF.StringEquals(foo, "x")'
+                         f' {op} PSF.StringEquals(foo["bar"], "y")')
+        choice = comb_class.from_ast_node(val)
+        assert choice.opname == exp_opname
+        assert choice.values[0].predicate_name == 'StringEquals'
+        assert choice.values[0].predicate_variable == ['foo']
+        assert choice.values[0].predicate_literal == 'x'
+        assert choice.values[1].predicate_name == 'StringEquals'
+        assert choice.values[1].predicate_variable == ['foo', 'bar']
+        assert choice.values[1].predicate_literal == 'y'
