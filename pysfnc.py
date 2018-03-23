@@ -50,6 +50,10 @@ def chained_key(nd):
     raise ValueError('expected chained lookup via strings on name')
 
 
+def lmap(f, xs):
+    return list(map(f, xs))
+
+
 ########################################################################
 
 @attr.s
