@@ -50,7 +50,8 @@ def summarise(text):
 
     if (PSF.StringEquals(summary['head'], 'a')
             or PSF.StringEquals(summary['head'], 'b')):
-        summary = augment_summary(text, summary)
+        summary = PSF.with_retry_spec(augment_summary, (text, summary),
+                                      (['States.ALL'], 1, 2, 1.5))
 
         def get_n_vowels_task():
             result = get_n_vowels(text)

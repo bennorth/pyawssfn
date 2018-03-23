@@ -15,3 +15,7 @@ class Fail(Exception):
 
 def parallel(*funs):
     return [f() for f in funs]
+
+
+def with_retry_spec(fun, args, *retry_specs):
+    return fun(*args)
