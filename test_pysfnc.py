@@ -46,20 +46,26 @@ class TestSupportFunctions:
 
 
 class TestChoice:
+    @pytest.fixture(scope='module', params=[C.TestComparison, C.ChoiceCondition])
+    def cmp_class(self, request):
+        return request.param
+
     @staticmethod
-    def _test_comparison(text, name, variable, literal):
+    def _test_comparison(cmp_class, text, name, variable, literal):
         val = expr_value(text)
-        cmp = C.TestComparison.from_ast_node(val)
+        cmp = cmp_class.from_ast_node(val)
         assert cmp.predicate_name == name
         assert cmp.predicate_variable == variable
         assert cmp.predicate_literal == literal
 
-    def test_comparison(self):
-        self._test_comparison('PSF.StringEquals(foo, "bar")',
+    def test_comparison(self, cmp_class):
+        self._test_comparison(cmp_class,
+                              'PSF.StringEquals(foo, "bar")',
                               'StringEquals', ['foo'], 'bar')
 
-    def test_chained_comparison(self):
-        self._test_comparison('PSF.StringEquals(foo["bar"], "baz")',
+    def test_chained_comparison(self, cmp_class):
+        self._test_comparison(cmp_class,
+                              'PSF.StringEquals(foo["bar"], "baz")',
                               'StringEquals', ['foo', 'bar'], 'baz')
 
     @pytest.mark.parametrize(
