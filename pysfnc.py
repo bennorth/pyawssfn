@@ -94,4 +94,6 @@ class ChoiceCondition:
     def from_ast_node(nd):
         if isinstance(nd, ast.Call):
             return TestComparison.from_ast_node(nd)
+        elif isinstance(nd, ast.BoolOp):
+            return TestCombinator.from_ast_node(nd)
         raise ValueError('expected Call')
