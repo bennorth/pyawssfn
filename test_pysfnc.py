@@ -233,6 +233,15 @@ class TestReturnIR:
     def test_return_bad_input(self, factory):
         _test_factory_raises(stmt_value('return 42'), factory)
 
+    def test_as_fragment(self, translation_context):
+        stmt = stmt_value('return banana')
+        ir = C.ReturnIR.from_ast_node(stmt)
+        frag = ir.as_fragment(translation_context)
+        assert frag.n_states == 1
+        succeed_state = frag.all_states[0]
+        assert succeed_state.fields == {'Type': 'Succeed',
+                                        'InputPath': '$.locals.banana'}
+
 
 class TestRaiseIR:
     @pytest.fixture(scope='module',
