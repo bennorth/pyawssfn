@@ -237,24 +237,24 @@ class TestRaiseIR:
 
 
 class TestFunctionCallIR:
-    @pytest.fixture(scope='module', params=[C.FunctionCallIR, C.AssignmentSourceIR])
-    def funcall_class(self, request):
+    @pytest.fixture(scope='module',
+                    params=[C.FunctionCallIR.from_ast_node,
+                            mk_assign_src_empty_defs])
+    def factory(self, request):
         return request.param
 
-    @pytest.mark.xfail(reason='part-way through change')
-    def test_bare_call(self, funcall_class):
+    def test_bare_call(self, factory):
         expr = expr_value('foo(bar, baz)')
-        ir = funcall_class.from_ast_node(expr)
+        ir = factory(expr)
         assert ir.fun_name == 'foo'
         assert ir.arg_names == ['bar', 'baz']
         assert ir.retry_spec is None
 
-    @pytest.mark.xfail(reason='part-way through change')
-    def test_call_with_retry_spec(self, funcall_class):
+    def test_call_with_retry_spec(self, factory):
         expr = expr_value('PSF.with_retry_spec(foo, (bar, baz),'
                           ' (["Bad"], 1.5, 3, 1.5),'
                           ' (["Worse"], 1.75, 5, 2.5))')
-        ir = funcall_class.from_ast_node(expr)
+        ir = factory(expr)
         assert ir.fun_name == 'foo'
         assert ir.arg_names == ['bar', 'baz']
         assert ir.retry_spec[0].error_equals == ['Bad']
