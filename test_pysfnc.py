@@ -173,6 +173,15 @@ class TestRetrySpec:
         assert ir.max_attempts == 3
         assert ir.backoff_rate == 2.0
 
+    def test_as_json(self):
+        expr = expr_value('(["BadThing", "WorseThing"], 2.5, 3, 2.0)')
+        ir = C.RetrySpecIR.from_ast_node(expr)
+        obj = ir.as_json_obj()
+        assert obj == {'ErrorEquals': ['BadThing', 'WorseThing'],
+                       'IntervalSeconds': 2.5,
+                       'MaxAttempts': 3,
+                       'BackoffRate': 2.0}
+
 
 @pytest.fixture
 def sample_try_stmt(scope='module'):
