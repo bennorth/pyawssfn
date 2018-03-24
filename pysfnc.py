@@ -62,6 +62,20 @@ def lmap(f, xs):
     return list(map(f, xs))
 
 
+def maybe_with_next(base_fields, next_state_name):
+    """
+    Return a copy of base_fields (a dict), with an additional item
+
+        'Next': next_state_name
+
+    iff next_state_name is non-None.
+    """
+    obj = dict(base_fields)
+    if next_state_name is not None:
+        obj['Next'] = next_state_name
+    return obj
+
+
 ########################################################################
 
 class ChoiceCondition:
