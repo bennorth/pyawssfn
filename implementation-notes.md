@@ -43,6 +43,10 @@ list is `['bar', 'baz']`.  The second example also has a retry-spec.
 Represents the source of an assignment; e.g., in `foo = bar(baz)`, the
 assignment source is the function call `bar(baz)`.
 
+## `AssignmentIR`
+
+Represents an assignment to a single simple variable from a source.
+
 
 # Local variables as Step Function state
 
