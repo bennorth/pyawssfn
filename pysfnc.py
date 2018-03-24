@@ -177,3 +177,18 @@ class RaiseIR:
                 and isinstance(nd.exc.args[1], ast.Str)):
             return cls(nd.exc.args[0].s, nd.exc.args[1].s)
         raise ValueError('expected raise PSF.Fail("foo", "bar")')
+
+
+@attr.s
+class FunctionCallIR:
+    fun_name = attr.ib()
+    arg_names = attr.ib()
+    retry_spec = attr.ib()
+
+    @classmethod
+    def from_ast_node(cls, nd):
+        if isinstance(nd, ast.Call):
+            if not isinstance(nd.func, ast.Attribute):
+                # Bare call
+                return cls(nd.func.id, [a.id for a in nd.args], None)
+        raise ValueError('expected some_function(some, args)')
