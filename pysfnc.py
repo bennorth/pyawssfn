@@ -412,6 +412,13 @@ class SuiteIR:
 class TranslationContext:
     lambda_arn = attr.ib()
 
+    @staticmethod
+    def is_main_fundef(fd):
+        return (
+            isinstance(fd, ast.FunctionDef)
+            and len(fd.decorator_list) == 1
+            and psf_attr(fd.decorator_list[0], raise_if_not=False) == 'main')
+
 
 @attr.s
 class StateMachineStateIR:
