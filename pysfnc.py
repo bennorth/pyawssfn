@@ -379,3 +379,7 @@ class StateMachineFragmentIR:
     @property
     def n_states(self):
         return len(self.all_states)
+
+    def set_next_state(self, next_state_name):
+        for s in self.exit_states:
+            s.next_state_name = next_state_name
