@@ -102,6 +102,12 @@ class TestComparison(ChoiceCondition):
                        nd.args[1].s)
         raise ValueError('expected function-call PSF.something(...)')
 
+    def as_choice_rule_smr(self, next_state_name):
+        return maybe_with_next(
+            {'Variable': chained_key_smr(self.predicate_variable),
+             self.predicate_name: self.predicate_literal},
+            next_state_name)
+
 
 @attr.s
 class TestCombinator(ChoiceCondition):
@@ -119,3 +125,9 @@ class TestCombinator(ChoiceCondition):
                 raise ValueError('expected Or or And')
             return cls(opname, lmap(ChoiceCondition.from_ast_node, nd.values))
         raise ValueError('expected BoolOp')
+
+    def as_choice_rule_smr(self, next_state_name):
+        terms = [v.as_choice_rule_smr(None) for v in self.values]
+        return maybe_with_next(
+            {self.opname: terms},
+            next_state_name)
