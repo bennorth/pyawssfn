@@ -69,6 +69,15 @@ Represents a `try`/`except` statement, with body and some handlers
 Represents an `if`/`else` statement, with test (`ChoiceCondition`),
 body for when test true, and body for when test false.
 
+## `ParallelIR`
+
+Represents a `Parallel` state.  A few plausible approaches to how the
+Python should look for this; settled on local function definitions,
+which have access to variables in the enclosing scope.  See
+`sample_parallel_invocation` test fixture and its usage.  Seems
+slightly clunky to pass around the 'enclosing scope' of definitions
+but not too bad.
+
 
 # Local variables as Step Function state
 
