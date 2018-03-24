@@ -96,9 +96,7 @@ class TestChoice:
         ['1 == 1', 'random_check(a, b)']
     )
     def test_comparison_bad_input(self, cmp_class, text):
-        val = expr_value(text)
-        with pytest.raises(ValueError):
-            cmp_class.from_ast_node(val)
+        _test_factory_raises(expr_value(text), cmp_class)
 
     @pytest.mark.parametrize(
         'op, exp_opname',
@@ -121,9 +119,7 @@ class TestChoice:
         ['1 == 1', 'random_check(a, b)', 'x < 77']
     )
     def test_combinator_bad_input(self, comb_class, text):
-        val = expr_value(text)
-        with pytest.raises(ValueError):
-            comb_class.from_ast_node(val)
+        _test_factory_raises(expr_value(text), comb_class)
 
     def test_comparison_conversion_to_smr(self):
         val = expr_value('PSF.StringEquals(foo, "x")')
@@ -152,9 +148,7 @@ class TestAstNodeIRs:
         assert ir.varname == 'banana'
 
     def test_return_bad_input(self):
-        stmt = stmt_value('return 42')
-        with pytest.raises(ValueError):
-            C.ReturnIR.from_ast_node(stmt)
+        _test_factory_raises(stmt_value('return 42'), C.ReturnIR)
 
     def test_raise(self):
         stmt = stmt_value('raise PSF.Fail("OverTemp", "too hot!")')
