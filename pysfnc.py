@@ -425,6 +425,11 @@ class TranslationContext:
             raise ValueError('no unique PSF.main function')
         return candidates[0]
 
+    def top_level_state_machine(self, syntax_tree):
+        fun = self.state_machine_main_fundef(syntax_tree)
+        suite = SuiteIR.from_ast_nodes(fun.body)
+        return suite.as_fragment(self)
+
 
 @attr.s
 class StateMachineStateIR:
