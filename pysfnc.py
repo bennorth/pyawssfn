@@ -243,6 +243,17 @@ class AssignmentIR(StatementIR):
 
 
 @attr.s
+class TryIR(StatementIR):
+    body = attr.ib()
+    catchers = attr.ib()
+
+    @classmethod
+    def from_ast_node(cls, nd):
+        body = SuiteIR.from_ast_nodes(nd.body)
+        return cls(body, [CatcherIR.from_ast_node(h) for h in nd.handlers])
+
+
+@attr.s
 class SuiteIR:
     body = attr.ib()
 
