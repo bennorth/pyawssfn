@@ -18,6 +18,11 @@ Represents what will be one entry in a `Choice` state's `Choices`
 slot.  It may or may not have a `Next` slot, depending on whether it
 is part of a larger condition.
 
+## `ReturnIR`
+
+Represents a `return some_variable` statement.  Can only return a
+variable.
+
 
 # Local variables as Step Function state
 
