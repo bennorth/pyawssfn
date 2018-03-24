@@ -136,6 +136,23 @@ class TestCombinator(ChoiceCondition):
 ########################################################################
 
 @attr.s
+class RetrySpecIR:
+    error_equals = attr.ib()
+    interval_seconds = attr.ib()
+    max_attempts = attr.ib()
+    backoff_rate = attr.ib()
+
+    @classmethod
+    def from_ast_node(cls, nd):
+        return cls([error_name.s for error_name in nd.elts[0].elts],
+                   nd.elts[1].n,
+                   nd.elts[2].n,
+                   nd.elts[3].n)
+
+
+########################################################################
+
+@attr.s
 class ReturnIR:
     varname = attr.ib()
 
