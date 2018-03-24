@@ -59,6 +59,11 @@ class TestSupportFunctions:
                 == {'foo': 99, 'Next': 'done'})
 
 
+def _test_factory_raises(nd, cls):
+    with pytest.raises(ValueError):
+        cls.from_ast_node(nd)
+
+
 class TestChoice:
     @pytest.fixture(scope='module', params=[C.TestComparison, C.ChoiceCondition])
     def cmp_class(self, request):
