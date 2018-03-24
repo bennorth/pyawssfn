@@ -3,6 +3,10 @@ import pysfnc as C
 import ast
 
 
+def stmt_value(txt):
+    return ast.parse(txt).body[0]
+
+
 def expr_value(txt):
     return ast.parse(txt).body[0].value
 
