@@ -58,6 +58,12 @@ Represents one `except` clause within a Python `try`/`except`
 statement.  The Python-level exception name gets mapped by the Step
 Function machinery into the Error Name.
 
+## `TryIR`
+
+Represents a `try`/`except` statement, with body and some handlers
+(which become `CatcherIR`s).  In a Step Function, catchers apply to a
+`Task`, so the body can be only a single assignment.
+
 
 # Local variables as Step Function state
 
