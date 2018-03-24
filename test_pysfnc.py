@@ -176,6 +176,16 @@ def sample_try_stmt(scope='module'):
         """)
 
 
+def _assert_sample_try_catchers_correct(catchers):
+        assert len(catchers) == 2
+        assert catchers[0].error_equals == ['BadThing']
+        _assert_is_assignment(catchers[0].body.body[0], 'foo', 'bar', 'baz')
+        _assert_is_assignment(catchers[0].body.body[1], 'qux', 'hello', 'world')
+        assert catchers[1].error_equals == ['WorseThing']
+        _assert_is_assignment(catchers[1].body.body[0], 'qux', 'bar', 'baz')
+        _assert_is_assignment(catchers[1].body.body[1], 'foo', 'hello', 'world')
+
+
 class TestCatcher:
     def test_catcher(self, sample_try_stmt):
         handlers = sample_try_stmt.handlers
