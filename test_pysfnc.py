@@ -150,3 +150,9 @@ class TestAstNodeIRs:
         stmt = stmt_value('return 42')
         with pytest.raises(ValueError):
             C.ReturnIR.from_ast_node(stmt)
+
+    def test_raise(self):
+        stmt = stmt_value('raise PSF.Fail("OverTemp", "too hot!")')
+        ir = C.RaiseIR.from_ast_node(stmt)
+        assert ir.error == 'OverTemp'
+        assert ir.cause == 'too hot!'
