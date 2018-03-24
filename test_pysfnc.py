@@ -200,9 +200,13 @@ class TestFunctionCallIR:
 
 
 class TestAssignmentIR:
-    def test_bare_call(self):
+    @pytest.fixture(scope='module', params=[C.AssignmentIR, C.StatementIR])
+    def assignment_class(self, request):
+        return request.param
+
+    def test_bare_call(self, assignment_class):
         stmt = stmt_value('foo = bar(baz, qux)')
-        ir = C.AssignmentIR.from_ast_node(stmt)
+        ir = assignment_class.from_ast_node(stmt)
         assert ir.target_varname == 'foo'
         assert ir.source.fun_name == 'bar'
         assert ir.source.arg_names == ['baz', 'qux']
