@@ -317,6 +317,26 @@ class TryIR(StatementIR):
         body = SuiteIR.from_ast_nodes(nd.body)
         return cls(body, [CatcherIR.from_ast_node(h) for h in nd.handlers])
 
+    def as_fragment(self, xln_ctx):
+        body = self.body.as_fragment(xln_ctx)
+        catcher_fragments = [c.body.as_fragment(xln_ctx) for c in self.catchers]
+        s_task = body.all_states[1]
+        assert s_task.fields['Type'] == 'Task'
+        s_task.fields['Catch'] = [
+            {'ErrorEquals': c.error_equals, 'Next': f.enter_state.name}
+            for (c, f) in zip(self.catchers, catcher_fragments)]
+
+        all_catcher_states = reduce(
+            concat, [f.all_states for f in catcher_fragments], [])
+
+        all_catcher_exits = reduce(
+            concat, [f.exit_states for f in catcher_fragments], [])
+
+        return StateMachineFragmentIR(
+            body.all_states + all_catcher_states,
+            body.enter_state,
+            body.exit_states + all_catcher_exits)
+
 
 @attr.s
 class IfIR(StatementIR):
