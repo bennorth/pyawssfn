@@ -16,3 +16,7 @@
 
 * More-helpful exceptions if `Catcher` given a node of the wrong
   form; test for these situations.
+
+* When building `TryIR`, check body is single assignment.  If not,
+  could maybe convert to `Parallel` with just one strand, then extract
+  single result?
