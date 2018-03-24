@@ -48,6 +48,12 @@ class TestSupportFunctions:
         assert C.chained_key_smr(['foo']) == '$.locals.foo'
         assert C.chained_key_smr(['foo', 'bar']) == '$.locals.foo.bar'
 
+    def test_maybe_with_next(self):
+        assert (C.maybe_with_next({'foo': 99}, None)
+                == {'foo': 99})
+        assert (C.maybe_with_next({'foo': 99}, 'done')
+                == {'foo': 99, 'Next': 'done'})
+
 
 class TestChoice:
     @pytest.fixture(scope='module', params=[C.TestComparison, C.ChoiceCondition])
