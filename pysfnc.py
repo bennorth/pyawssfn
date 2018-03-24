@@ -221,6 +221,7 @@ class FunctionCallIR(AssignmentSourceIR):
                          ' or PSF.with_retry_spec(fun, (some, args),'
                          ' retry_spec_1, retry_spec_2)')
 
+
 class StatementIR:
     @classmethod
     def from_ast_node(self, nd):
