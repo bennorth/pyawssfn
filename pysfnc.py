@@ -233,6 +233,22 @@ class FunctionCallIR(AssignmentSourceIR):
     def call_descriptor(self):
         return {"function": self.fun_name, "arg_names": self.arg_names}
 
+    def as_fragment(self, xln_ctx, target_varname):
+        s_pass = StateMachineStateIR.from_fields(Type='Pass',
+                                                 Result=self.call_descriptor(),
+                                                 ResultPath='$.call_descr')
+
+        task_fields = {'Type': 'Task',
+                       'Resource': xln_ctx.lambda_arn,
+                       'ResultPath': chained_key_smr([target_varname])}
+        if self.retry_spec is not None:
+            task_fields['Retry'] = [s.as_json_obj() for s in self.retry_spec]
+        s_task = StateMachineStateIR.from_fields(**task_fields)
+
+        s_pass.next_state_name = s_task.name
+
+        return StateMachineFragmentIR([s_pass, s_task], s_pass, [s_task])
+
 
 @attr.s
 class ParallelIR:
