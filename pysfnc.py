@@ -210,3 +210,15 @@ class FunctionCallIR(AssignmentSourceIR):
         raise ValueError('expected some_function(some, args)'
                          ' or PSF.with_retry_spec(fun, (some, args),'
                          ' retry_spec_1, retry_spec_2)')
+
+@attr.s
+class AssignmentIR:
+    target_varname = attr.ib()
+    source = attr.ib()
+
+    @classmethod
+    def from_ast_node(cls, nd):
+        if isinstance(nd, ast.Assign) and len(nd.targets) == 1:
+            return cls(nd.targets[0].id,
+                       AssignmentSourceIR.from_ast_node(nd.value))
+        raise ValueError('expected single-target assignment')
