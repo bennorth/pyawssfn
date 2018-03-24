@@ -56,8 +56,18 @@ def lmap(f, xs):
 
 ########################################################################
 
+class ChoiceCondition:
+    @staticmethod
+    def from_ast_node(nd):
+        if isinstance(nd, ast.Call):
+            return TestComparison.from_ast_node(nd)
+        elif isinstance(nd, ast.BoolOp):
+            return TestCombinator.from_ast_node(nd)
+        raise ValueError('expected Call')
+
+
 @attr.s
-class TestComparison:
+class TestComparison(ChoiceCondition):
     predicate_name = attr.ib()
     predicate_variable = attr.ib()
     predicate_literal = attr.ib()
@@ -72,7 +82,7 @@ class TestComparison:
 
 
 @attr.s
-class TestCombinator:
+class TestCombinator(ChoiceCondition):
     opname = attr.ib()
     values = attr.ib()
 
@@ -87,13 +97,3 @@ class TestCombinator:
                 raise ValueError('expected Or or And')
             return cls(opname, lmap(ChoiceCondition.from_ast_node, nd.values))
         raise ValueError('expected BoolOp')
-
-
-class ChoiceCondition:
-    @staticmethod
-    def from_ast_node(nd):
-        if isinstance(nd, ast.Call):
-            return TestComparison.from_ast_node(nd)
-        elif isinstance(nd, ast.BoolOp):
-            return TestCombinator.from_ast_node(nd)
-        raise ValueError('expected Call')
