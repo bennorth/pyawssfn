@@ -218,9 +218,7 @@ class TestAssignmentIR:
     def test_bare_call(self, assignment_class):
         stmt = stmt_value('foo = bar(baz, qux)')
         ir = assignment_class.from_ast_node(stmt)
-        assert ir.target_varname == 'foo'
-        assert ir.source.fun_name == 'bar'
-        assert ir.source.arg_names == ['baz', 'qux']
+        _assert_is_assignment(ir, 'foo', 'bar', 'baz', 'qux')
 
 
 class TestSuiteIR:
@@ -230,9 +228,5 @@ class TestSuiteIR:
             qux = hello(world)
         """)
         ir = C.SuiteIR.from_ast_nodes(body)
-        assert ir.body[0].target_varname == 'foo'
-        assert ir.body[0].source.fun_name == 'bar'
-        assert ir.body[0].source.arg_names == ['baz']
-        assert ir.body[1].target_varname == 'qux'
-        assert ir.body[1].source.fun_name == 'hello'
-        assert ir.body[1].source.arg_names == ['world']
+        _assert_is_assignment(ir.body[0], 'foo', 'bar', 'baz')
+        _assert_is_assignment(ir.body[1], 'qux', 'hello', 'world')
