@@ -171,18 +171,22 @@ class TestAstNodeIRs:
 
 
 class TestFunctionCallIR:
-    def test_bare_call(self):
+    @pytest.fixture(scope='module', params=[C.FunctionCallIR, C.AssignmentSourceIR])
+    def funcall_class(self, request):
+        return request.param
+
+    def test_bare_call(self, funcall_class):
         expr = expr_value('foo(bar, baz)')
-        ir = C.FunctionCallIR.from_ast_node(expr)
+        ir = funcall_class.from_ast_node(expr)
         assert ir.fun_name == 'foo'
         assert ir.arg_names == ['bar', 'baz']
         assert ir.retry_spec is None
 
-    def test_call_with_retry_spec(self):
+    def test_call_with_retry_spec(self, funcall_class):
         expr = expr_value('PSF.with_retry_spec(foo, (bar, baz),'
                           ' (["Bad"], 1.5, 3, 1.5),'
                           ' (["Worse"], 1.75, 5, 2.5))')
-        ir = C.FunctionCallIR.from_ast_node(expr)
+        ir = funcall_class.from_ast_node(expr)
         assert ir.fun_name == 'foo'
         assert ir.arg_names == ['bar', 'baz']
         assert ir.retry_spec[0].error_equals == ['Bad']
