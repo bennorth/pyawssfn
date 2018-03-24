@@ -210,14 +210,18 @@ class TestReturnIR:
 
 
 class TestRaiseIR:
-    def test_raise(self):
+    @pytest.fixture(scope='module', params=[C.RaiseIR, C.StatementIR])
+    def raise_class(self, request):
+        return request.param
+
+    def test_raise(self, raise_class):
         stmt = stmt_value('raise PSF.Fail("OverTemp", "too hot!")')
-        ir = C.RaiseIR.from_ast_node(stmt)
+        ir = raise_class.from_ast_node(stmt)
         assert ir.error == 'OverTemp'
         assert ir.cause == 'too hot!'
 
-    def test_raise_bad_input(self):
-        _test_factory_raises(stmt_value('raise x.y()'), C.RaiseIR)
+    def test_raise_bad_input(self, raise_class):
+        _test_factory_raises(stmt_value('raise x.y()'), raise_class)
 
 
 class TestFunctionCallIR:
