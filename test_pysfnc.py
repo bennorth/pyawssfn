@@ -196,13 +196,17 @@ class TestCatcher:
 
 
 class TestReturnIR:
-    def test_return(self):
+    @pytest.fixture(scope='module', params=[C.ReturnIR, C.StatementIR])
+    def return_class(self, request):
+        return request.param
+
+    def test_return(self, return_class):
         stmt = stmt_value('return banana')
-        ir = C.ReturnIR.from_ast_node(stmt)
+        ir = return_class.from_ast_node(stmt)
         assert ir.varname == 'banana'
 
-    def test_return_bad_input(self):
-        _test_factory_raises(stmt_value('return 42'), C.ReturnIR)
+    def test_return_bad_input(self, return_class):
+        _test_factory_raises(stmt_value('return 42'), return_class)
 
 
 class TestRaiseIR:
