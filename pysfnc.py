@@ -191,7 +191,7 @@ class RaiseIR:
 
 class AssignmentSourceIR:
     @classmethod
-    def from_ast_node(cls, nd):
+    def from_ast_node(cls, nd, defs):
         if isinstance(nd, ast.Call):
             if (isinstance(nd.func, ast.Name)
                     or (isinstance(nd.func, ast.Attribute)
@@ -234,9 +234,9 @@ class ParallelIR:
 
 class StatementIR:
     @classmethod
-    def from_ast_node(self, nd):
+    def from_ast_node(self, nd, defs):
         if isinstance(nd, ast.Assign):
-            return AssignmentIR.from_ast_node(nd)
+            return AssignmentIR.from_ast_node(nd, defs)
         if isinstance(nd, ast.Try):
             return TryIR.from_ast_node(nd)
         if isinstance(nd, ast.If):
@@ -255,10 +255,10 @@ class AssignmentIR(StatementIR):
     source = attr.ib()
 
     @classmethod
-    def from_ast_node(cls, nd):
+    def from_ast_node(cls, nd, defs):
         if isinstance(nd, ast.Assign) and len(nd.targets) == 1:
             return cls(nd.targets[0].id,
-                       AssignmentSourceIR.from_ast_node(nd.value))
+                       AssignmentSourceIR.from_ast_node(nd.value, defs))
         raise ValueError('expected single-target assignment')
 
 
@@ -298,5 +298,5 @@ class SuiteIR:
             if isinstance(nd, ast.FunctionDef):
                 defs[nd.name] = SuiteIR.from_ast_nodes(nd.body)
             else:
-                body.append(StatementIR.from_ast_node(nd))
+                body.append(StatementIR.from_ast_node(nd, defs))
         return cls(body)
