@@ -162,11 +162,11 @@ class TestRetrySpec:
         assert ir.backoff_rate == 2.0
 
 
-class TestCatcher:
-    def test_catcher(self):
-        stmt = stmt_value("""
+@pytest.fixture
+def sample_try_stmt(scope='module'):
+    return stmt_value("""
         try:
-            pass
+            x = f(y)
         except BadThing:
             foo = bar(baz)
             qux = hello(world)
@@ -174,7 +174,11 @@ class TestCatcher:
             qux = bar(baz)
             foo = hello(world)
         """)
-        handlers = stmt.handlers
+
+
+class TestCatcher:
+    def test_catcher(self, sample_try_stmt):
+        handlers = sample_try_stmt.handlers
         catchers = [C.CatcherIR.from_ast_node(h) for h in handlers]
         assert len(catchers) == 2
         assert catchers[0].error_equals == ['BadThing']
