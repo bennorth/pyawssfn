@@ -349,6 +349,13 @@ class TestParallelIR:
             {'f1': def_f1, 'f2': def_f2})
         self._assert_parallel_ir_correct(ir)
 
+    def test_parallel_assignment(self, sample_parallel_invocation):
+        ir = C.SuiteIR.from_ast_nodes(sample_parallel_invocation)
+        assert len(ir.body) == 1
+        assert isinstance(ir.body[0], C.AssignmentIR)
+        assert isinstance(ir.body[0].source, C.ParallelIR)
+        self._assert_parallel_ir_correct(ir.body[0].source)
+
 
 class TestSuiteIR:
     def test_assignments(self):
