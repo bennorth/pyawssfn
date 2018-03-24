@@ -406,6 +406,25 @@ class TestIfIR:
         _assert_is_assignment(ir.false_body.body[0], 'z', 'g', 'u')
         _assert_is_assignment(ir.false_body.body[1], 's', 'h', 't')
 
+    def test_as_fragment(self, translation_context, sample_if_statement):
+        ir = C.IfIR.from_ast_node(sample_if_statement)
+        frag = ir.as_fragment(translation_context)
+        assert frag.n_states == 7  # Two per assignment; one for choice.
+        assert len(frag.exit_states) == 2  # One per branch.
+        assert frag.enter_state.fields['Type'] == 'Choice'
+        choices = frag.enter_state.fields['Choices']
+        assert len(choices) == 1
+        true_branch_s0 = find_state_by_name(frag, choices[0]['Next'])
+        true_branch_s1 = find_state_by_name(frag, true_branch_s0.next_state_name)
+        _assert_state_pair_forms_assignment(true_branch_s0, true_branch_s1,
+                                            translation_context,
+                                            'x', 'f', ['y'])
+        false_branch_s0 = find_state_by_name(frag, frag.enter_state.fields['Default'])
+        false_branch_s1 = find_state_by_name(frag, false_branch_s0.next_state_name)
+        _assert_state_pair_forms_assignment(false_branch_s0, false_branch_s1,
+                                            translation_context,
+                                            'z', 'g', ['u'])
+
 
 @pytest.fixture(scope='module')
 def sample_parallel_invocation():
