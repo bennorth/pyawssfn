@@ -34,3 +34,19 @@ Python objects which are dictionaries have access to their (chained)
 keys converted into JSON sub-object access.  E.g., the Python chained
 key lookup `foo['bar']['baz']` will be converted to the JSON
 expression `foo.bar.baz`.
+
+
+# State Machine Representation
+
+The concepts also have Python representations essentially equivalent
+to what will be written out as the JSON description of the state
+machine.  Often this will be a dictionary, although lists and literals
+also occur.
+
+## `ChoiceCondition`
+
+Objects of (one of the two subclasses of) this class have a method
+`as_choice_rule_smr(next)` which returns a dictionary suitable for use
+as one element of the `Choices` list of a `Choice` state, or as a
+component of such an element.  Top-level elements have a `Next` slot;
+lower-level elements do not.
