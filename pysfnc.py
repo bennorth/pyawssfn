@@ -235,7 +235,8 @@ class StatementIR:
             return ReturnIR.from_ast_node(nd)
         if isinstance(nd, ast.Raise):
             return RaiseIR.from_ast_node(nd)
-        raise ValueError('unexpected node type for statement')
+        raise ValueError('unexpected node type {} for statement'
+                         .format(type(nd)))
 
 
 @attr.s
