@@ -150,6 +150,16 @@ class RetrySpecIR:
                    nd.elts[3].n)
 
 
+@attr.s
+class CatcherIR:
+    error_equals = attr.ib()
+    body = attr.ib()
+
+    @classmethod
+    def from_ast_node(cls, nd):
+        return cls([nd.type.id], SuiteIR.from_ast_nodes(nd.body))
+
+
 ########################################################################
 
 @attr.s
