@@ -44,6 +44,10 @@ class TestSupportFunctions:
         with pytest.raises(ValueError):
             C.chained_key(val)
 
+    def test_chained_key_smr(self):
+        assert C.chained_key_smr(['foo']) == '$.locals.foo'
+        assert C.chained_key_smr(['foo', 'bar']) == '$.locals.foo.bar'
+
 
 class TestChoice:
     @pytest.fixture(scope='module', params=[C.TestComparison, C.ChoiceCondition])
