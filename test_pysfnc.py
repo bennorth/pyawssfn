@@ -138,3 +138,10 @@ class TestChoice:
                               {'Variable': '$.locals.foo.bar',
                                'StringEquals': 'y'}],
                        'Next': 'wash_dishes'}
+
+
+class TestAstNodeIRs:
+    def test_return(self):
+        stmt = stmt_value('return banana')
+        ir = C.ReturnIR.from_ast_node(stmt)
+        assert ir.varname == 'banana'
