@@ -308,6 +308,7 @@ class TryIR(StatementIR):
 
     @classmethod
     def from_ast_node(cls, nd):
+        assert len(nd.body) == 1
         body = SuiteIR.from_ast_nodes(nd.body)
         return cls(body, [CatcherIR.from_ast_node(h) for h in nd.handlers])
 
