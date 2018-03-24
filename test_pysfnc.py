@@ -249,8 +249,12 @@ class TestAssignmentIR:
 
 
 class TestTryIR:
-    def test_try(self, sample_try_stmt):
-        ir = C.TryIR.from_ast_node(sample_try_stmt)
+    @pytest.fixture(scope='module', params=[C.TryIR, C.StatementIR])
+    def try_class(self, request):
+        return request.param
+
+    def test_try(self, sample_try_stmt, try_class):
+        ir = try_class.from_ast_node(sample_try_stmt)
         _assert_is_assignment(ir.body.body[0], 'x', 'f', 'y')
         _assert_is_assignment(ir.catchers[0].body.body[0], 'foo', 'bar', 'baz')
         _assert_is_assignment(ir.catchers[0].body.body[1], 'qux', 'hello', 'world')
