@@ -284,6 +284,32 @@ class TestFunctionCallIR:
         assert ir.retry_spec[1].max_attempts == 5
         assert ir.retry_spec[1].backoff_rate == 2.5
 
+    def test_as_fragment(self, sample_funcall_with_retry,
+                         translation_context, factory):
+        ir = factory(sample_funcall_with_retry)
+        frag = ir.as_fragment(translation_context, 'the_result')
+        assert frag.n_states == 2
+        pass_state = frag.all_states[0]
+        assert pass_state is frag.enter_state
+        task_state = frag.all_states[1]
+        assert task_state is frag.exit_states[0]
+        assert pass_state.fields == {'Type': 'Pass',
+                                     'Result': {'function': 'foo',
+                                                'arg_names': ['bar', 'baz']},
+                                     'ResultPath': '$.call_descr'}
+        assert pass_state.next_state_name == task_state.name
+        assert task_state.fields == {'Type': 'Task',
+                                     'Resource': translation_context.lambda_arn,
+                                     'Retry': [{'ErrorEquals': ['Bad'],
+                                                'IntervalSeconds': 1.5,
+                                                'MaxAttempts': 3,
+                                                'BackoffRate': 1.5},
+                                               {'ErrorEquals': ['Worse'],
+                                                'IntervalSeconds': 1.75,
+                                                'MaxAttempts': 5,
+                                                'BackoffRate': 2.5}],
+                                     'ResultPath': '$.locals.the_result'}
+
 
 class TestAssignmentIR:
     @pytest.fixture(scope='module', params=[C.AssignmentIR, C.StatementIR])
