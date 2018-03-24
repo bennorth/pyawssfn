@@ -272,6 +272,18 @@ class ParallelIR:
         branch_names = [arg.id for arg in nd.args]
         return cls([defs[n] for n in branch_names])
 
+    def as_fragment(self, xln_ctx, target_varname):
+        # The branches of a 'Parallel' are isolated state machines, so
+        # we need to convert each one into a JSON-friendly form now.
+        # This is in contrast to 'If' or 'Try' where the bodies
+        # contribute their states to the top-level state machine.
+        s_parallel = StateMachineStateIR.from_fields(
+            Type='Parallel',
+            Branches=[branch.as_fragment(xln_ctx).as_json_obj()
+                      for branch in self.branches],
+            ResultPath=chained_key_smr([target_varname]))
+        return StateMachineFragmentIR([s_parallel], s_parallel, [s_parallel])
+
 
 class StatementIR:
     @classmethod
