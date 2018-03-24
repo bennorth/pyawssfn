@@ -16,6 +16,11 @@ def suite_value(txt):
     return ast.parse(textwrap.dedent(txt)).body
 
 
+def _test_factory_raises(nd, cls):
+    with pytest.raises(ValueError):
+        cls.from_ast_node(nd)
+
+
 class TestSupportFunctions:
     def test_psf_attr(self):
         val = expr_value('PSF.hello_world')
@@ -62,11 +67,6 @@ class TestSupportFunctions:
                 == {'foo': 99})
         assert (C.maybe_with_next({'foo': 99}, 'done')
                 == {'foo': 99, 'Next': 'done'})
-
-
-def _test_factory_raises(nd, cls):
-    with pytest.raises(ValueError):
-        cls.from_ast_node(nd)
 
 
 class TestChoice:
