@@ -1,6 +1,7 @@
 import pytest
 import pysfnc as C
 import ast
+import textwrap
 
 
 def stmt_value(txt):
@@ -9,6 +10,10 @@ def stmt_value(txt):
 
 def expr_value(txt):
     return stmt_value(txt).value
+
+
+def suite_value(txt):
+    return ast.parse(textwrap.dedent(txt)).body
 
 
 class TestSupportFunctions:
