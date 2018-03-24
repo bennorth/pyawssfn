@@ -28,6 +28,16 @@ variable.
 Represents a `raise PSF.Fail("BadThing", "something went wrong")`
 statement.  The exception raised must be of that form.
 
+## `FunctionCallIR`
+
+Represents a function call of one of the two forms
+
+* `foo(bar, baz)`
+* `PSF.with_retry_spec(foo, (bar, baz), spec1, spec2)`
+
+In both of these examples, the function-name is `foo` and the argnames
+list is `['bar', 'baz']`.  The second example also has a retry-spec.
+
 
 # Local variables as Step Function state
 
