@@ -222,6 +222,16 @@ class FunctionCallIR(AssignmentSourceIR):
                          ' retry_spec_1, retry_spec_2)')
 
 
+@attr.s
+class ParallelIR:
+    branches = attr.ib()
+
+    @classmethod
+    def from_ast_node_and_defs(cls, nd, defs):
+        branch_names = [arg.id for arg in nd.args]
+        return cls([defs[n] for n in branch_names])
+
+
 class StatementIR:
     @classmethod
     def from_ast_node(self, nd):
