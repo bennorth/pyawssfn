@@ -206,19 +206,18 @@ class TestCatcher:
 
 
 class TestReturnIR:
-    @pytest.fixture(scope='module', params=[C.ReturnIR, C.StatementIR])
-    def return_class(self, request):
+    @pytest.fixture(scope='module',
+                    params=[C.ReturnIR.from_ast_node, mk_statement_empty_defs])
+    def factory(self, request):
         return request.param
 
-    @pytest.mark.xfail(reason='part-way through change')
-    def test_return(self, return_class):
+    def test_return(self, factory):
         stmt = stmt_value('return banana')
-        ir = return_class.from_ast_node(stmt)
+        ir = factory(stmt)
         _assert_is_return(ir, 'banana')
 
-    @pytest.mark.xfail(reason='part-way through change')
-    def test_return_bad_input(self, return_class):
-        _test_factory_raises(stmt_value('return 42'), return_class)
+    def test_return_bad_input(self, factory):
+        _test_factory_raises(stmt_value('return 42'), factory)
 
 
 class TestRaiseIR:
