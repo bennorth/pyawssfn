@@ -197,3 +197,12 @@ class TestFunctionCallIR:
         assert ir.retry_spec[1].interval_seconds == 1.75
         assert ir.retry_spec[1].max_attempts == 5
         assert ir.retry_spec[1].backoff_rate == 2.5
+
+
+class TestAssignmentIR:
+    def test_bare_call(self):
+        stmt = stmt_value('foo = bar(baz, qux)')
+        ir = C.AssignmentIR.from_ast_node(stmt)
+        assert ir.target_varname == 'foo'
+        assert ir.source.fun_name == 'bar'
+        assert ir.source.arg_names == ['baz', 'qux']
