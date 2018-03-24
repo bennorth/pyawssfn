@@ -419,6 +419,12 @@ class TranslationContext:
             and len(fd.decorator_list) == 1
             and psf_attr(fd.decorator_list[0], raise_if_not=False) == 'main')
 
+    def state_machine_main_fundef(self, syntax_tree):
+        candidates = [x for x in syntax_tree.body if self.is_main_fundef(x)]
+        if len(candidates) != 1:
+            raise ValueError('no unique PSF.main function')
+        return candidates[0]
+
 
 @attr.s
 class StateMachineStateIR:
