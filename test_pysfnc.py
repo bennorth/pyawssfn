@@ -381,6 +381,30 @@ class TestTryIR:
         _assert_is_assignment(ir.body.body[0], 'x', 'f', 'y')
         _assert_sample_try_catchers_correct(ir.catchers)
 
+    def test_as_fragment(self, sample_try_stmt, translation_context):
+        ir = C.TryIR.from_ast_node(sample_try_stmt)
+        frag = ir.as_fragment(translation_context)
+        assert frag.n_states == 10  # Two per assignment
+        s0 = frag.enter_state
+        s1 = find_state_by_name(frag, s0.next_state_name)
+        _assert_state_pair_forms_assignment(s0, s1,
+                                            translation_context,
+                                            'x', 'f', ['y'])
+        catches = s1.fields['Catch']
+        assert len(catches) == 2
+        assert catches[0]['ErrorEquals'] == ['BadThing']
+        catch0_s0 = find_state_by_name(frag, catches[0]['Next'])
+        catch0_s1 = find_state_by_name(frag, catch0_s0.next_state_name)
+        _assert_state_pair_forms_assignment(catch0_s0, catch0_s1,
+                                            translation_context,
+                                            'foo', 'bar', ['baz'])
+        assert catches[1]['ErrorEquals'] == ['WorseThing']
+        catch1_s0 = find_state_by_name(frag, catches[1]['Next'])
+        catch1_s1 = find_state_by_name(frag, catch1_s0.next_state_name)
+        _assert_state_pair_forms_assignment(catch1_s0, catch1_s1,
+                                            translation_context,
+                                            'qux', 'bar', ['baz'])
+
 
 @pytest.fixture(scope='module')
 def sample_if_statement():
