@@ -334,3 +334,14 @@ class StateMachineStateIR:
 
     def value_as_json_obj(self):
         return maybe_with_next(self.fields, self.next_state_name)
+
+
+@attr.s
+class StateMachineFragmentIR:
+    all_states = attr.ib()
+    enter_state = attr.ib()
+    exit_states = attr.ib()
+
+    @property
+    def n_states(self):
+        return len(self.all_states)
