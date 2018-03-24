@@ -274,6 +274,17 @@ def sample_if_statement():
     """)
 
 
+class TestIfIR:
+    def test_if(self, sample_if_statement):
+        ir = C.IfIR.from_ast_node(sample_if_statement)
+        assert ir.test.predicate_name == 'StringEquals'
+        assert ir.test.predicate_variable == ['foo']
+        assert ir.test.predicate_literal == 'hello'
+        _assert_is_assignment(ir.true_body.body[0], 'x', 'f', 'y')
+        _assert_is_assignment(ir.false_body.body[0], 'z', 'g', 'u')
+        _assert_is_assignment(ir.false_body.body[1], 's', 'h', 't')
+
+
 class TestSuiteIR:
     def test_assignments(self):
         body = suite_value("""
