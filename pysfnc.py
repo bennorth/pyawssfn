@@ -256,6 +256,19 @@ class TryIR(StatementIR):
 
 
 @attr.s
+class IfIR(StatementIR):
+    test = attr.ib()
+    true_body = attr.ib()
+    false_body = attr.ib()
+
+    @classmethod
+    def from_ast_node(cls, nd):
+        return cls(ChoiceCondition.from_ast_node(nd.test),
+                   SuiteIR.from_ast_nodes(nd.body),
+                   SuiteIR.from_ast_nodes(nd.orelse))
+
+
+@attr.s
 class SuiteIR:
     body = attr.ib()
 
