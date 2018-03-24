@@ -145,3 +145,8 @@ class TestAstNodeIRs:
         stmt = stmt_value('return banana')
         ir = C.ReturnIR.from_ast_node(stmt)
         assert ir.varname == 'banana'
+
+    def test_return_bad_input(self):
+        stmt = stmt_value('return 42')
+        with pytest.raises(ValueError):
+            C.ReturnIR.from_ast_node(stmt)
