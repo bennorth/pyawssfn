@@ -50,6 +50,14 @@ def chained_key(nd):
     raise ValueError('expected chained lookup via strings on name')
 
 
+def chained_key_smr(k):
+    """
+    Convert a sequence of chained lookups into the jsonPath which will
+    refer to its location in the 'locals' object.
+    """
+    return '.'.join(['$', 'locals'] + k)
+
+
 def lmap(f, xs):
     return list(map(f, xs))
 
