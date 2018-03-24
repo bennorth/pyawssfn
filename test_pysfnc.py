@@ -115,3 +115,22 @@ class TestChoice:
         val = expr_value(text)
         with pytest.raises(ValueError):
             comb_class.from_ast_node(val)
+
+    def test_comparison_conversion_to_smr(self):
+        val = expr_value('PSF.StringEquals(foo, "x")')
+        choice = C.ChoiceCondition.from_ast_node(val)
+        smr = choice.as_choice_rule_smr('wash_dishes')
+        assert smr == {'Variable': '$.locals.foo',
+                       'StringEquals': 'x',
+                       'Next': 'wash_dishes'}
+
+    def test_combinator_conversion_to_smr(self):
+        val = expr_value('PSF.StringEquals(foo, "x")'
+                         ' or PSF.StringEquals(foo["bar"], "y")')
+        choice = C.ChoiceCondition.from_ast_node(val)
+        smr = choice.as_choice_rule_smr('wash_dishes')
+        assert smr == {'Or': [{'Variable': '$.locals.foo',
+                               'StringEquals': 'x'},
+                              {'Variable': '$.locals.foo.bar',
+                               'StringEquals': 'y'}],
+                       'Next': 'wash_dishes'}
