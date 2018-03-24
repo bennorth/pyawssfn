@@ -2,6 +2,8 @@ import ast
 import attr
 from functools import reduce
 from operator import concat
+import click
+import json
 
 
 ########################################################################
@@ -467,3 +469,21 @@ class StateMachineFragmentIR:
         return {'States': {s.name: s.value_as_json_obj()
                            for s in self.all_states},
                 'StartAt': self.enter_state.name}
+
+
+########################################################################
+
+@click.command()
+@click.argument('source_fname')
+@click.argument('lambda_arn')
+def main(source_fname, lambda_arn):
+    syntax_tree = ast.parse(source=open(source_fname, 'rt').read(),
+                            filename=source_fname)
+
+    xln_ctx = TranslationContext(lambda_arn)
+    state_machine = xln_ctx.top_level_state_machine(syntax_tree)
+    print(json.dumps(state_machine.as_json_obj(), indent=2))
+
+
+if __name__ == '__main__':
+    main()
