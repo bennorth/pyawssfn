@@ -168,3 +168,12 @@ class TestAstNodeIRs:
 
     def test_raise_bad_input(self):
         _test_factory_raises(stmt_value('raise x.y()'), C.RaiseIR)
+
+
+class TestFunctionCallIR:
+    def test_bare_call(self):
+        expr = expr_value('foo(bar, baz)')
+        ir = C.FunctionCallIR.from_ast_node(expr)
+        assert ir.fun_name == 'foo'
+        assert ir.arg_names == ['bar', 'baz']
+        assert ir.retry_spec is None
