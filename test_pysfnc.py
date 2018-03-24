@@ -17,6 +17,12 @@ def suite_value(txt):
     return ast.parse(textwrap.dedent(txt)).body
 
 
+def find_state_by_name(frag, name):
+    candidates = [s for s in frag.all_states if s.name == name]
+    assert len(candidates) == 1
+    return candidates[0]
+
+
 def _test_factory_raises(nd, factory):
     with pytest.raises(ValueError):
         factory(nd)
