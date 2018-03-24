@@ -230,3 +230,15 @@ class AssignmentIR(StatementIR):
             return cls(nd.targets[0].id,
                        AssignmentSourceIR.from_ast_node(nd.value))
         raise ValueError('expected single-target assignment')
+
+
+@attr.s
+class SuiteIR:
+    body = attr.ib()
+
+    @classmethod
+    def from_ast_nodes(cls, nds):
+        body = []
+        for nd in nds:
+            body.append(StatementIR.from_ast_node(nd))
+        return cls(body)
