@@ -252,6 +252,16 @@ class TestRaiseIR:
     def test_raise_bad_input(self, factory):
         _test_factory_raises(stmt_value('raise x.y()'), factory)
 
+    def test_as_fragment(self, sample_fail_stmt, translation_context):
+        ir = C.RaiseIR.from_ast_node(sample_fail_stmt)
+        frag = ir.as_fragment(translation_context)
+        assert frag.n_states == 1
+        assert len(frag.exit_states) == 0
+        fail_state = frag.all_states[0]
+        assert fail_state.fields == {'Type': 'Fail',
+                                     'Error': 'OverTemp',
+                                     'Cause': 'too hot!'}
+
 
 @pytest.fixture(scope='module')
 def sample_funcall_with_retry():
