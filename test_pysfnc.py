@@ -21,6 +21,12 @@ def _test_factory_raises(nd, cls):
         cls.from_ast_node(nd)
 
 
+def _assert_is_assignment(ir, target, src_funname, *src_argnames):
+    assert ir.target_varname == target
+    assert ir.source.fun_name == src_funname
+    assert ir.source.arg_names == list(src_argnames)
+
+
 class TestSupportFunctions:
     def test_psf_attr(self):
         val = expr_value('PSF.hello_world')
