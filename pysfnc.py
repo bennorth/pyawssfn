@@ -320,3 +320,6 @@ class StateMachineStateIR:
         name = 'n{}'.format(cls.next_id)
         cls.next_id += 1
         return cls(name, kwargs, None)
+
+    def value_as_json_obj(self):
+        return maybe_with_next(self.fields, self.next_state_name)
