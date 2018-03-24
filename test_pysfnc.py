@@ -343,6 +343,24 @@ class TestAssignmentIR:
         ir = assignment_class.from_ast_node(stmt, {})
         _assert_is_assignment(ir, 'foo', 'bar', 'baz', 'qux')
 
+    def test_as_fragment(self, translation_context):
+        stmt = stmt_value('foo = bar(baz, qux)')
+        ir = C.AssignmentIR.from_ast_node(stmt, {})
+        frag = ir.as_fragment(translation_context)
+        assert frag.n_states == 2
+        pass_state = frag.all_states[0]
+        assert pass_state is frag.enter_state
+        task_state = frag.all_states[1]
+        assert task_state is frag.exit_states[0]
+        assert pass_state.fields == {'Type': 'Pass',
+                                     'Result': {'function': 'bar',
+                                                'arg_names': ['baz', 'qux']},
+                                     'ResultPath': '$.call_descr'}
+        assert pass_state.next_state_name == task_state.name
+        assert task_state.fields == {'Type': 'Task',
+                                     'Resource': translation_context.lambda_arn,
+                                     'ResultPath': '$.locals.foo'}
+
 
 class TestTryIR:
     @pytest.fixture(scope='module',
