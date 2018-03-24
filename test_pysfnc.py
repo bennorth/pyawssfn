@@ -277,8 +277,12 @@ def sample_if_statement():
 
 
 class TestIfIR:
-    def test_if(self, sample_if_statement):
-        ir = C.IfIR.from_ast_node(sample_if_statement)
+    @pytest.fixture(scope='module', params=[C.IfIR, C.StatementIR])
+    def if_class(self, request):
+        return request.param
+
+    def test_if(self, sample_if_statement, if_class):
+        ir = if_class.from_ast_node(sample_if_statement)
         _assert_comparison_correct(ir.test, 'StringEquals', ['foo'], 'hello')
         _assert_is_assignment(ir.true_body.body[0], 'x', 'f', 'y')
         _assert_is_assignment(ir.false_body.body[0], 'z', 'g', 'u')
