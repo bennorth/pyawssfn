@@ -64,6 +64,11 @@ Represents a `try`/`except` statement, with body and some handlers
 (which become `CatcherIR`s).  In a Step Function, catchers apply to a
 `Task`, so the body can be only a single assignment.
 
+## `IfIR`
+
+Represents an `if`/`else` statement, with test (`ChoiceCondition`),
+body for when test true, and body for when test false.
+
 
 # Local variables as Step Function state
 
