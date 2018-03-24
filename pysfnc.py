@@ -192,7 +192,7 @@ class AssignmentSourceIR:
 
 
 @attr.s
-class FunctionCallIR:
+class FunctionCallIR(AssignmentSourceIR):
     fun_name = attr.ib()
     arg_names = attr.ib()
     retry_spec = attr.ib()
