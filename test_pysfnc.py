@@ -177,3 +177,19 @@ class TestFunctionCallIR:
         assert ir.fun_name == 'foo'
         assert ir.arg_names == ['bar', 'baz']
         assert ir.retry_spec is None
+
+    def test_call_with_retry_spec(self):
+        expr = expr_value('PSF.with_retry_spec(foo, (bar, baz),'
+                          ' (["Bad"], 1.5, 3, 1.5),'
+                          ' (["Worse"], 1.75, 5, 2.5))')
+        ir = C.FunctionCallIR.from_ast_node(expr)
+        assert ir.fun_name == 'foo'
+        assert ir.arg_names == ['bar', 'baz']
+        assert ir.retry_spec[0].error_equals == ['Bad']
+        assert ir.retry_spec[0].interval_seconds == 1.5
+        assert ir.retry_spec[0].max_attempts == 3
+        assert ir.retry_spec[0].backoff_rate == 1.5
+        assert ir.retry_spec[1].error_equals == ['Worse']
+        assert ir.retry_spec[1].interval_seconds == 1.75
+        assert ir.retry_spec[1].max_attempts == 5
+        assert ir.retry_spec[1].backoff_rate == 2.5
