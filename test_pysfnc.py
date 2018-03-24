@@ -375,3 +375,13 @@ class TestStateMachineStateIR:
         assert sms_1.name != sms_2.name
         assert sms_1.fields == {'Type': 'Wait', 'Seconds': 30}
         assert sms_2.fields == {'Type': 'Wait', 'Seconds': 60}
+
+    def test_as_json_no_next(self):
+        sms = C.StateMachineStateIR.from_fields(Type='Wait', Seconds=30)
+        assert sms.value_as_json_obj() == {'Type': 'Wait', 'Seconds': 30}
+
+    def test_as_json_with_next(self):
+        sms = C.StateMachineStateIR.from_fields(Type='Wait', Seconds=30)
+        sms.next_state_name = 'do_something'
+        assert sms.value_as_json_obj() == {'Type': 'Wait', 'Seconds': 30,
+                                           'Next': 'do_something'}
