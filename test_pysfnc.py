@@ -195,7 +195,7 @@ class TestCatcher:
         _assert_sample_try_catchers_correct(catchers)
 
 
-class TestAstNodeIRs:
+class TestReturnIR:
     def test_return(self):
         stmt = stmt_value('return banana')
         ir = C.ReturnIR.from_ast_node(stmt)
@@ -204,6 +204,8 @@ class TestAstNodeIRs:
     def test_return_bad_input(self):
         _test_factory_raises(stmt_value('return 42'), C.ReturnIR)
 
+
+class TestRaiseIR:
     def test_raise(self):
         stmt = stmt_value('raise PSF.Fail("OverTemp", "too hot!")')
         ir = C.RaiseIR.from_ast_node(stmt)
