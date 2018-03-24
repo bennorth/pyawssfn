@@ -211,6 +211,14 @@ class FunctionCallIR(AssignmentSourceIR):
                          ' or PSF.with_retry_spec(fun, (some, args),'
                          ' retry_spec_1, retry_spec_2)')
 
+class StatementIR:
+    @classmethod
+    def from_ast_node(self, nd):
+        if isinstance(nd, ast.Assign):
+            return AssignmentIR.from_ast_node(nd)
+        raise ValueError('unexpected node type for statement')
+
+
 @attr.s
 class AssignmentIR:
     target_varname = attr.ib()
