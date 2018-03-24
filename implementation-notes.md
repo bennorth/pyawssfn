@@ -23,6 +23,11 @@ is part of a larger condition.
 Represents a `return some_variable` statement.  Can only return a
 variable.
 
+## `RaiseIR`
+
+Represents a `raise PSF.Fail("BadThing", "something went wrong")`
+statement.  The exception raised must be of that form.
+
 
 # Local variables as Step Function state
 
