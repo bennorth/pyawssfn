@@ -303,3 +303,20 @@ class SuiteIR:
             else:
                 body.append(StatementIR.from_ast_node(nd, defs))
         return cls(body)
+
+
+########################################################################
+
+@attr.s
+class StateMachineStateIR:
+    name = attr.ib()
+    fields = attr.ib()
+    next_state_name = attr.ib()
+
+    next_id = 0
+
+    @classmethod
+    def from_fields(cls, **kwargs):
+        name = 'n{}'.format(cls.next_id)
+        cls.next_id += 1
+        return cls(name, kwargs, None)
