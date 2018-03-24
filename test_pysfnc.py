@@ -215,3 +215,18 @@ class TestAssignmentIR:
         assert ir.target_varname == 'foo'
         assert ir.source.fun_name == 'bar'
         assert ir.source.arg_names == ['baz', 'qux']
+
+
+class TestSuiteIR:
+    def test_assignments(self):
+        body = suite_value("""
+            foo = bar(baz)
+            qux = hello(world)
+        """)
+        ir = C.SuiteIR.from_ast_nodes(body)
+        assert ir.body[0].target_varname == 'foo'
+        assert ir.body[0].source.fun_name == 'bar'
+        assert ir.body[0].source.arg_names == ['baz']
+        assert ir.body[1].target_varname == 'qux'
+        assert ir.body[1].source.fun_name == 'hello'
+        assert ir.body[1].source.arg_names == ['world']
