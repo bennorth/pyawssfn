@@ -300,6 +300,9 @@ class AssignmentIR(StatementIR):
                        AssignmentSourceIR.from_ast_node(nd.value, defs))
         raise ValueError('expected single-target assignment')
 
+    def as_fragment(self, xln_ctx):
+        return self.source.as_fragment(xln_ctx, self.target_varname)
+
 
 @attr.s
 class TryIR(StatementIR):
