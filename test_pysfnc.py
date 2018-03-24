@@ -236,6 +236,13 @@ class TestRaiseIR:
         _test_factory_raises(stmt_value('raise x.y()'), factory)
 
 
+@pytest.fixture(scope='module')
+def sample_funcall_with_retry():
+    return expr_value('PSF.with_retry_spec(foo, (bar, baz),'
+                      ' (["Bad"], 1.5, 3, 1.5),'
+                      ' (["Worse"], 1.75, 5, 2.5))')
+
+
 class TestFunctionCallIR:
     @pytest.fixture(scope='module',
                     params=[C.FunctionCallIR.from_ast_node,
