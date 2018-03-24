@@ -39,6 +39,18 @@ def _assert_comparison_correct(cmp, exp_name, exp_variable, exp_literal):
     assert cmp.predicate_literal == exp_literal
 
 
+def _assert_state_pair_forms_assignment(s0, s1, xln_ctx,
+                                        assign_target, fun, args):
+    assert s0.fields == {'Type': 'Pass',
+                         'Result': {'function': fun, 'arg_names': args},
+                         'ResultPath': '$.call_descr'}
+    assert s0.next_state_name == s1.name
+    assert s1.fields['Type'] == 'Task'
+    assert s1.fields['Resource'] == xln_ctx.lambda_arn
+    assert s1.fields['ResultPath'] == f'$.locals.{assign_target}'
+    # Ignore 'Retry' content, if any.
+
+
 mk_statement_empty_defs = partial(C.StatementIR.from_ast_node, defs={})
 mk_assign_src_empty_defs = partial(C.AssignmentSourceIR.from_ast_node, defs={})
 
