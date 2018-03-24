@@ -47,6 +47,11 @@ assignment source is the function call `bar(baz)`.
 
 Represents an assignment to a single simple variable from a source.
 
+## `SuiteIR`
+
+Represents a Python suite of statements, e.g., the body executed if
+the test in an `if` statement evaluates to true.
+
 
 # Local variables as Step Function state
 
