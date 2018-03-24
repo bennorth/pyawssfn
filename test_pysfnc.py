@@ -366,3 +366,12 @@ class TestSuiteIR:
         ir = C.SuiteIR.from_ast_nodes(body)
         _assert_is_assignment(ir.body[0], 'foo', 'bar', 'baz')
         _assert_is_assignment(ir.body[1], 'qux', 'hello', 'world')
+
+
+class TestStateMachineStateIR:
+    def test_construction(self):
+        sms_1 = C.StateMachineStateIR.from_fields(Type='Wait', Seconds=30)
+        sms_2 = C.StateMachineStateIR.from_fields(Type='Wait', Seconds=60)
+        assert sms_1.name != sms_2.name
+        assert sms_1.fields == {'Type': 'Wait', 'Seconds': 30}
+        assert sms_2.fields == {'Type': 'Wait', 'Seconds': 60}
