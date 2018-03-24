@@ -304,6 +304,20 @@ class TestIfIR:
         _assert_is_assignment(ir.false_body.body[1], 's', 'h', 't')
 
 
+@pytest.fixture(scope='module')
+def sample_parallel_invocation():
+    return suite_value("""
+    def f1():
+        r = f(bar, baz)
+        s = g(r)
+        return s
+    def f2():
+        x = m(u)
+        return x
+    results = PSF.parallel(f1, f2)
+    """)
+
+
 class TestSuiteIR:
     def test_assignments(self):
         body = suite_value("""
