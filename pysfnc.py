@@ -314,6 +314,11 @@ class SuiteIR:
 ########################################################################
 
 @attr.s
+class TranslationContext:
+    lambda_arn = attr.ib()
+
+
+@attr.s
 class StateMachineStateIR:
     name = attr.ib()
     fields = attr.ib()
