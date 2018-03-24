@@ -43,6 +43,11 @@ mk_statement_empty_defs = partial(C.StatementIR.from_ast_node, defs={})
 mk_assign_src_empty_defs = partial(C.AssignmentSourceIR.from_ast_node, defs={})
 
 
+@pytest.fixture(scope='module')
+def translation_context():
+    return C.TranslationContext('arn:...:function:dispatch')
+
+
 class TestSupportFunctions:
     def test_psf_attr(self):
         val = expr_value('PSF.hello_world')
