@@ -155,3 +155,6 @@ class TestAstNodeIRs:
         ir = C.RaiseIR.from_ast_node(stmt)
         assert ir.error == 'OverTemp'
         assert ir.cause == 'too hot!'
+
+    def test_raise_bad_input(self):
+        _test_factory_raises(stmt_value('raise x.y()'), C.RaiseIR)
