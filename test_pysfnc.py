@@ -141,6 +141,16 @@ class TestChoice:
                        'Next': 'wash_dishes'}
 
 
+class TestRetrySpec:
+    def test_retry_spec(self):
+        expr = expr_value('(["BadThing", "WorseThing"], 2.5, 3, 2.0)')
+        ir = C.RetrySpecIR.from_ast_node(expr)
+        assert ir.error_equals == ['BadThing', 'WorseThing']
+        assert ir.interval_seconds == 2.5
+        assert ir.max_attempts == 3
+        assert ir.backoff_rate == 2.0
+
+
 class TestAstNodeIRs:
     def test_return(self):
         stmt = stmt_value('return banana')
