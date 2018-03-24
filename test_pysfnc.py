@@ -2,6 +2,7 @@ import pytest
 import pysfnc as C
 import ast
 import textwrap
+from functools import partial
 
 
 def stmt_value(txt):
@@ -36,6 +37,10 @@ def _assert_comparison_correct(cmp, exp_name, exp_variable, exp_literal):
     assert cmp.predicate_name == exp_name
     assert cmp.predicate_variable == exp_variable
     assert cmp.predicate_literal == exp_literal
+
+
+mk_statement_empty_defs = partial(C.StatementIR.from_ast_node, defs={})
+mk_assign_src_empty_defs = partial(C.AssignmentSourceIR.from_ast_node, defs={})
 
 
 class TestSupportFunctions:
