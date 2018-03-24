@@ -257,11 +257,8 @@ class TestFunctionCallIR:
         assert ir.arg_names == ['bar', 'baz']
         assert ir.retry_spec is None
 
-    def test_call_with_retry_spec(self, factory):
-        expr = expr_value('PSF.with_retry_spec(foo, (bar, baz),'
-                          ' (["Bad"], 1.5, 3, 1.5),'
-                          ' (["Worse"], 1.75, 5, 2.5))')
-        ir = factory(expr)
+    def test_call_with_retry_spec(self, sample_funcall_with_retry, factory):
+        ir = factory(sample_funcall_with_retry)
         assert ir.fun_name == 'foo'
         assert ir.arg_names == ['bar', 'baz']
         assert ir.retry_spec[0].error_equals == ['Bad']
