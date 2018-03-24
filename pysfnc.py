@@ -220,7 +220,7 @@ class StatementIR:
 
 
 @attr.s
-class AssignmentIR:
+class AssignmentIR(StatementIR):
     target_varname = attr.ib()
     source = attr.ib()
 
