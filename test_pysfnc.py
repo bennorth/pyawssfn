@@ -272,10 +272,9 @@ class TestAssignmentIR:
     def assignment_class(self, request):
         return request.param
 
-    @pytest.mark.xfail(reason='part-way through change')
     def test_bare_call(self, assignment_class):
         stmt = stmt_value('foo = bar(baz, qux)')
-        ir = assignment_class.from_ast_node(stmt)
+        ir = assignment_class.from_ast_node(stmt, {})
         _assert_is_assignment(ir, 'foo', 'bar', 'baz', 'qux')
 
 
