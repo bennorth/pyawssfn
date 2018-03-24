@@ -263,6 +263,17 @@ class TestTryIR:
         _assert_sample_try_catchers_correct(ir.catchers)
 
 
+@pytest.fixture(scope='module')
+def sample_if_statement():
+    return stmt_value("""
+    if PSF.StringEquals(foo, 'hello'):
+        x = f(y)
+    else:
+        z = g(u)
+        s = h(t)
+    """)
+
+
 class TestSuiteIR:
     def test_assignments(self):
         body = suite_value("""
