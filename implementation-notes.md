@@ -52,6 +52,12 @@ Represents an assignment to a single simple variable from a source.
 Represents a Python suite of statements, e.g., the body executed if
 the test in an `if` statement evaluates to true.
 
+## `CatcherIR`
+
+Represents one `except` clause within a Python `try`/`except`
+statement.  The Python-level exception name gets mapped by the Step
+Function machinery into the Error Name.
+
 
 # Local variables as Step Function state
 
