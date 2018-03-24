@@ -178,6 +178,12 @@ class ReturnIR:
             return cls(nd.value.id)
         raise ValueError('expected return of variable')
 
+    def as_fragment(self, xln_ctx):
+        s = StateMachineStateIR.from_fields(
+            Type='Succeed',
+            InputPath=chained_key_smr([self.varname]))
+        return StateMachineFragmentIR([s], s, [])
+
 
 @attr.s
 class RaiseIR:
