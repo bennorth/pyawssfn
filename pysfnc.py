@@ -293,6 +293,10 @@ class SuiteIR:
     @classmethod
     def from_ast_nodes(cls, nds):
         body = []
+        defs = {}
         for nd in nds:
-            body.append(StatementIR.from_ast_node(nd))
+            if isinstance(nd, ast.FunctionDef):
+                defs[nd.name] = SuiteIR.from_ast_nodes(nd.body)
+            else:
+                body.append(StatementIR.from_ast_node(nd))
         return cls(body)
