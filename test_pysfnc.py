@@ -162,6 +162,29 @@ class TestRetrySpec:
         assert ir.backoff_rate == 2.0
 
 
+class TestCatcher:
+    def test_catcher(self):
+        stmt = stmt_value("""
+        try:
+            pass
+        except BadThing:
+            foo = bar(baz)
+            qux = hello(world)
+        except WorseThing:
+            qux = bar(baz)
+            foo = hello(world)
+        """)
+        handlers = stmt.handlers
+        catchers = [C.CatcherIR.from_ast_node(h) for h in handlers]
+        assert len(catchers) == 2
+        assert catchers[0].error_equals == ['BadThing']
+        assert catchers[1].error_equals == ['WorseThing']
+        _assert_is_assignment(catchers[0].body.body[0], 'foo', 'bar', 'baz')
+        _assert_is_assignment(catchers[0].body.body[1], 'qux', 'hello', 'world')
+        _assert_is_assignment(catchers[1].body.body[0], 'qux', 'bar', 'baz')
+        _assert_is_assignment(catchers[1].body.body[1], 'foo', 'hello', 'world')
+
+
 class TestAstNodeIRs:
     def test_return(self):
         stmt = stmt_value('return banana')
