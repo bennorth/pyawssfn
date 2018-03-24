@@ -327,22 +327,12 @@ class TestFunctionCallIR:
         assert pass_state is frag.enter_state
         task_state = frag.all_states[1]
         assert task_state is frag.exit_states[0]
-        assert pass_state.fields == {'Type': 'Pass',
-                                     'Result': {'function': 'foo',
-                                                'arg_names': ['bar', 'baz']},
-                                     'ResultPath': '$.call_descr'}
-        assert pass_state.next_state_name == task_state.name
-        assert task_state.fields == {'Type': 'Task',
-                                     'Resource': translation_context.lambda_arn,
-                                     'Retry': [{'ErrorEquals': ['Bad'],
-                                                'IntervalSeconds': 1.5,
-                                                'MaxAttempts': 3,
-                                                'BackoffRate': 1.5},
-                                               {'ErrorEquals': ['Worse'],
-                                                'IntervalSeconds': 1.75,
-                                                'MaxAttempts': 5,
-                                                'BackoffRate': 2.5}],
-                                     'ResultPath': '$.locals.the_result'}
+
+        # This doesn't check retry-spec but that's tested by
+        # test_call_with_retry_spec().
+        _assert_state_pair_forms_assignment(pass_state, task_state,
+                                            translation_context,
+                                            'the_result', 'foo', ['bar', 'baz'])
 
 
 class TestAssignmentIR:
