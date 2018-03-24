@@ -330,6 +330,17 @@ def sample_parallel_invocation():
 
 
 class TestParallelIR:
+    @staticmethod
+    def _assert_parallel_ir_correct(ir):
+        assert len(ir.branches) == 2
+        br0 = ir.branches[0]
+        _assert_is_assignment(br0.body[0], 'r', 'f', 'bar', 'baz')
+        _assert_is_assignment(br0.body[1], 's', 'g', 'r')
+        _assert_is_return(br0.body[2], 's')
+        br1 = ir.branches[1]
+        _assert_is_assignment(br1.body[0], 'x', 'm', 'u')
+        _assert_is_return(br1.body[1], 'x')
+
     def test_parallel(self, sample_parallel_invocation):
         def_f1 = C.SuiteIR.from_ast_nodes(sample_parallel_invocation[0].body)
         def_f2 = C.SuiteIR.from_ast_nodes(sample_parallel_invocation[1].body)
