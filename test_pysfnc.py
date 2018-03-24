@@ -190,13 +190,7 @@ class TestCatcher:
     def test_catcher(self, sample_try_stmt):
         handlers = sample_try_stmt.handlers
         catchers = [C.CatcherIR.from_ast_node(h) for h in handlers]
-        assert len(catchers) == 2
-        assert catchers[0].error_equals == ['BadThing']
-        assert catchers[1].error_equals == ['WorseThing']
-        _assert_is_assignment(catchers[0].body.body[0], 'foo', 'bar', 'baz')
-        _assert_is_assignment(catchers[0].body.body[1], 'qux', 'hello', 'world')
-        _assert_is_assignment(catchers[1].body.body[0], 'qux', 'bar', 'baz')
-        _assert_is_assignment(catchers[1].body.body[1], 'foo', 'hello', 'world')
+        _assert_sample_try_catchers_correct(catchers)
 
 
 class TestAstNodeIRs:
@@ -266,10 +260,7 @@ class TestTryIR:
     def test_try(self, sample_try_stmt, try_class):
         ir = try_class.from_ast_node(sample_try_stmt)
         _assert_is_assignment(ir.body.body[0], 'x', 'f', 'y')
-        _assert_is_assignment(ir.catchers[0].body.body[0], 'foo', 'bar', 'baz')
-        _assert_is_assignment(ir.catchers[0].body.body[1], 'qux', 'hello', 'world')
-        _assert_is_assignment(ir.catchers[1].body.body[0], 'qux', 'bar', 'baz')
-        _assert_is_assignment(ir.catchers[1].body.body[1], 'foo', 'hello', 'world')
+        _assert_sample_try_catchers_correct(ir.catchers)
 
 
 class TestSuiteIR:
