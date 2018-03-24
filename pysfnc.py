@@ -194,6 +194,11 @@ class RaiseIR:
             return cls(nd.exc.args[0].s, nd.exc.args[1].s)
         raise ValueError('expected raise PSF.Fail("foo", "bar")')
 
+    def as_fragment(self, xln_ctx):
+        s = StateMachineStateIR.from_fields(
+            Type='Fail', Error=self.error, Cause=self.cause)
+        return StateMachineFragmentIR([s], s, [])
+
 
 class AssignmentSourceIR:
     @classmethod
