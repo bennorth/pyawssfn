@@ -23,3 +23,18 @@
 
 * Notice and collapse `if`/`elif`/`elif`/`else` chains into one
   `Choice` state.
+
+* Check that local definitions used for `Parallel` states have no
+  args.
+
+* Check for unused or undefined branches of a `Parallel` state.
+
+* Automatic deduction, based on data-flow, of which operations are
+  independent and could be gathered into a `Parallel` state.  Some
+  care needed because there might be hidden dependencies: One function
+  invocation might have some side-effect that the next computation
+  relies on, but this is not explicit in the data-flow through
+  variables.  E.g., in `c = foo(a); b = bar(a)` it seems that `foo(a)`
+  and `bar(a)` can proceed independently, but perhaps `bar(a)` relies
+  on some global state which `foo(a)` establishes, like a change to a
+  database.
