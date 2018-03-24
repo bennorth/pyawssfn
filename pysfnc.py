@@ -228,6 +228,8 @@ class StatementIR:
             return AssignmentIR.from_ast_node(nd)
         if isinstance(nd, ast.Try):
             return TryIR.from_ast_node(nd)
+        if isinstance(nd, ast.If):
+            return IfIR.from_ast_node(nd)
         raise ValueError('unexpected node type for statement')
 
 
