@@ -10,3 +10,6 @@
 
 * Could handle bare `return` by converting to `return None` and
   thence to a `Succeed` with `InputPath=null`.
+
+* More-helpful exceptions if `RetrySpecIR` given a node of the wrong
+  form; test for these situations.
