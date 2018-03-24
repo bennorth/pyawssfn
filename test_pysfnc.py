@@ -27,6 +27,12 @@ def _assert_is_assignment(ir, target, src_funname, *src_argnames):
     assert ir.source.arg_names == list(src_argnames)
 
 
+def _assert_comparison_correct(cmp, exp_name, exp_variable, exp_literal):
+    assert cmp.predicate_name == exp_name
+    assert cmp.predicate_variable == exp_variable
+    assert cmp.predicate_literal == exp_literal
+
+
 class TestSupportFunctions:
     def test_psf_attr(self):
         val = expr_value('PSF.hello_world')
