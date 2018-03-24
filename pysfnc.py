@@ -144,3 +144,19 @@ class ReturnIR:
         if isinstance(nd.value, ast.Name):
             return cls(nd.value.id)
         raise ValueError('expected return of variable')
+
+
+@attr.s
+class RaiseIR:
+    error = attr.ib()
+    cause = attr.ib()
+
+    @classmethod
+    def from_ast_node(cls, nd):
+        if (isinstance(nd.exc, ast.Call)
+                and psf_attr(nd.exc.func) == 'Fail'
+                and len(nd.exc.args) == 2
+                and isinstance(nd.exc.args[0], ast.Str)
+                and isinstance(nd.exc.args[1], ast.Str)):
+            return cls(nd.exc.args[0].s, nd.exc.args[1].s)
+        raise ValueError('expected raise PSF.Fail("foo", "bar")')
