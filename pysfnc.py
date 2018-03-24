@@ -1,5 +1,7 @@
 import ast
 import attr
+from functools import reduce
+from operator import concat
 
 
 ########################################################################
@@ -343,6 +345,15 @@ class SuiteIR:
             else:
                 body.append(StatementIR.from_ast_node(nd, defs))
         return cls(body)
+
+    def as_fragment(self, xln_ctx):
+        fragments = [stmt.as_fragment(xln_ctx) for stmt in self.body]
+        for f0, f1 in zip(fragments[:-1], fragments[1:]):
+            f0.set_next_state(f1.enter_state.name)
+        return StateMachineFragmentIR(
+            reduce(concat, [f.all_states for f in fragments], []),
+            fragments[0].enter_state,
+            fragments[-1].exit_states)
 
 
 ########################################################################
