@@ -20,3 +20,6 @@
 * When building `TryIR`, check body is single assignment.  If not,
   could maybe convert to `Parallel` with just one strand, then extract
   single result?
+
+* Notice and collapse `if`/`elif`/`elif`/`else` chains into one
+  `Choice` state.
