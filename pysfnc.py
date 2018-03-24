@@ -197,6 +197,9 @@ class AssignmentSourceIR:
                     or (isinstance(nd.func, ast.Attribute)
                         and psf_attr(nd.func) == 'with_retry_spec')):
                 return FunctionCallIR.from_ast_node(nd)
+            if (isinstance(nd.func, ast.Attribute)
+                    and psf_attr(nd.func) == 'parallel'):
+                return ParallelIR.from_ast_node_and_defs(nd, defs)
         raise ValueError('expected fn(x, y)'
                          ' or PSF.with_retry_spec(fn, (x, y), s1, s2)')
 
