@@ -149,6 +149,12 @@ class RetrySpecIR:
                    nd.elts[2].n,
                    nd.elts[3].n)
 
+    def as_json_obj(self):
+        return {'ErrorEquals': self.error_equals,
+                'IntervalSeconds': self.interval_seconds,
+                'MaxAttempts': self.max_attempts,
+                'BackoffRate': self.backoff_rate}
+
 
 @attr.s
 class CatcherIR:
