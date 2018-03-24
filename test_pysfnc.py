@@ -248,6 +248,16 @@ class TestAssignmentIR:
         _assert_is_assignment(ir, 'foo', 'bar', 'baz', 'qux')
 
 
+class TestTryIR:
+    def test_try(self, sample_try_stmt):
+        ir = C.TryIR.from_ast_node(sample_try_stmt)
+        _assert_is_assignment(ir.body.body[0], 'x', 'f', 'y')
+        _assert_is_assignment(ir.catchers[0].body.body[0], 'foo', 'bar', 'baz')
+        _assert_is_assignment(ir.catchers[0].body.body[1], 'qux', 'hello', 'world')
+        _assert_is_assignment(ir.catchers[1].body.body[0], 'qux', 'bar', 'baz')
+        _assert_is_assignment(ir.catchers[1].body.body[1], 'foo', 'hello', 'world')
+
+
 class TestSuiteIR:
     def test_assignments(self):
         body = suite_value("""
