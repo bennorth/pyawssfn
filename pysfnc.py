@@ -432,3 +432,8 @@ class StateMachineFragmentIR:
     def set_next_state(self, next_state_name):
         for s in self.exit_states:
             s.next_state_name = next_state_name
+
+    def as_json_obj(self):
+        return {'States': {s.name: s.value_as_json_obj()
+                           for s in self.all_states},
+                'StartAt': self.enter_state.name}
