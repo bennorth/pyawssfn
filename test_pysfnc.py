@@ -240,9 +240,12 @@ class TestRaiseIR:
     def factory(self, request):
         return request.param
 
-    def test_raise(self, factory):
-        stmt = stmt_value('raise PSF.Fail("OverTemp", "too hot!")')
-        ir = factory(stmt)
+    @pytest.fixture(scope='module')
+    def sample_fail_stmt(self):
+        return stmt_value('raise PSF.Fail("OverTemp", "too hot!")')
+
+    def test_raise(self, factory, sample_fail_stmt):
+        ir = factory(sample_fail_stmt)
         assert ir.error == 'OverTemp'
         assert ir.cause == 'too hot!'
 
