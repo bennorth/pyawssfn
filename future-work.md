@@ -38,3 +38,5 @@
   and `bar(a)` can proceed independently, but perhaps `bar(a)` relies
   on some global state which `foo(a)` establishes, like a change to a
   database.
+
+* Allow keyword arguments in a `FunctionCallIR`.
