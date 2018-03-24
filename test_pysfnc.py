@@ -279,13 +279,13 @@ class TestAssignmentIR:
 
 
 class TestTryIR:
-    @pytest.fixture(scope='module', params=[C.TryIR, C.StatementIR])
-    def try_class(self, request):
+    @pytest.fixture(scope='module',
+                    params=[C.TryIR.from_ast_node, mk_statement_empty_defs])
+    def factory(self, request):
         return request.param
 
-    @pytest.mark.xfail(reason='part-way through change')
-    def test_try(self, sample_try_stmt, try_class):
-        ir = try_class.from_ast_node(sample_try_stmt)
+    def test_try(self, sample_try_stmt, factory):
+        ir = factory(sample_try_stmt)
         _assert_is_assignment(ir.body.body[0], 'x', 'f', 'y')
         _assert_sample_try_catchers_correct(ir.catchers)
 
