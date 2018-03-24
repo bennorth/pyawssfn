@@ -330,6 +330,24 @@ class IfIR(StatementIR):
                    SuiteIR.from_ast_nodes(nd.body),
                    SuiteIR.from_ast_nodes(nd.orelse))
 
+    def as_fragment(self, xln_ctx):
+        true_frag = self.true_body.as_fragment(xln_ctx)
+        false_frag = self.false_body.as_fragment(xln_ctx)
+
+        choice_rule = self.test.as_choice_rule_smr(true_frag.enter_state.name)
+        choice_state = StateMachineStateIR.from_fields(
+            Type='Choice',
+            Choices=[choice_rule],
+            Default=false_frag.enter_state.name)
+
+        all_states = ([choice_state]
+                      + true_frag.all_states
+                      + false_frag.all_states)
+
+        exit_states = true_frag.exit_states + false_frag.exit_states
+
+        return StateMachineFragmentIR(all_states, choice_state, exit_states)
+
 
 @attr.s
 class SuiteIR:
