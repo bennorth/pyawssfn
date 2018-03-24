@@ -13,3 +13,6 @@
 
 * More-helpful exceptions if `RetrySpecIR` given a node of the wrong
   form; test for these situations.
+
+* More-helpful exceptions if `Catcher` given a node of the wrong
+  form; test for these situations.
