@@ -116,13 +116,12 @@ class TestChoice:
                               'PSF.StringEquals(foo["bar"], "baz")',
                               'StringEquals', ['foo', 'bar'], 'baz')
 
-    @pytest.mark.xfail(reason='part-way through change')
     @pytest.mark.parametrize(
         'text',
         ['1 == 1', 'random_check(a, b)']
     )
     def test_comparison_bad_input(self, cmp_class, text):
-        _test_factory_raises(expr_value(text), cmp_class)
+        _test_factory_raises(expr_value(text), cmp_class.from_ast_node)
 
     @pytest.mark.parametrize(
         'op, exp_opname',
@@ -138,13 +137,12 @@ class TestChoice:
         _assert_comparison_correct(choice.values[1],
                                    'StringEquals', ['foo', 'bar'], 'y')
 
-    @pytest.mark.xfail(reason='part-way through change')
     @pytest.mark.parametrize(
         'text',
         ['1 == 1', 'random_check(a, b)', 'x < 77']
     )
     def test_combinator_bad_input(self, comb_class, text):
-        _test_factory_raises(expr_value(text), comb_class)
+        _test_factory_raises(expr_value(text), comb_class.from_ast_node)
 
     def test_comparison_conversion_to_smr(self):
         val = expr_value('PSF.StringEquals(foo, "x")')
