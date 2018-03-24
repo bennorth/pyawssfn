@@ -131,3 +131,16 @@ class TestCombinator(ChoiceCondition):
         return maybe_with_next(
             {self.opname: terms},
             next_state_name)
+
+
+########################################################################
+
+@attr.s
+class ReturnIR:
+    varname = attr.ib()
+
+    @classmethod
+    def from_ast_node(cls, nd):
+        if isinstance(nd.value, ast.Name):
+            return cls(nd.value.id)
+        raise ValueError('expected return of variable')
