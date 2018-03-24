@@ -208,7 +208,7 @@ class TestReturnIR:
     def test_return(self, return_class):
         stmt = stmt_value('return banana')
         ir = return_class.from_ast_node(stmt)
-        assert ir.varname == 'banana'
+        _assert_is_return(ir, 'banana')
 
     def test_return_bad_input(self, return_class):
         _test_factory_raises(stmt_value('return 42'), return_class)
