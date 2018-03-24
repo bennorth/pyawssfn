@@ -491,6 +491,18 @@ class TestParallelIR:
         assert isinstance(ir.body[0].source, C.ParallelIR)
         self._assert_parallel_ir_correct(ir.body[0].source)
 
+    def test_as_fragment(self,
+                         translation_context, sample_parallel_invocation):
+        ir = C.SuiteIR.from_ast_nodes(sample_parallel_invocation)
+        parallel_ir = ir.body[0].source
+        frag = parallel_ir.as_fragment(translation_context, 'the_results')
+        assert frag.n_states == 1
+        branches = frag.enter_state.fields['Branches']
+        assert len(branches) == 2
+        b0, b1 = branches
+        assert len(b0['States']) == 5  # Two per assignment ...
+        assert len(b1['States']) == 3  # ... plus one return
+
 
 class TestSuiteIR:
     @pytest.fixture(scope='module')
