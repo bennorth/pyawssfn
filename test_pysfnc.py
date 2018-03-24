@@ -94,9 +94,7 @@ class TestChoice:
     def _test_comparison(cmp_class, text, name, variable, literal):
         val = expr_value(text)
         cmp = cmp_class.from_ast_node(val)
-        assert cmp.predicate_name == name
-        assert cmp.predicate_variable == variable
-        assert cmp.predicate_literal == literal
+        _assert_comparison_correct(cmp, name, variable, literal)
 
     def test_comparison(self, cmp_class):
         self._test_comparison(cmp_class,
@@ -124,12 +122,10 @@ class TestChoice:
                          f' {op} PSF.StringEquals(foo["bar"], "y")')
         choice = comb_class.from_ast_node(val)
         assert choice.opname == exp_opname
-        assert choice.values[0].predicate_name == 'StringEquals'
-        assert choice.values[0].predicate_variable == ['foo']
-        assert choice.values[0].predicate_literal == 'x'
-        assert choice.values[1].predicate_name == 'StringEquals'
-        assert choice.values[1].predicate_variable == ['foo', 'bar']
-        assert choice.values[1].predicate_literal == 'y'
+        _assert_comparison_correct(choice.values[0],
+                                   'StringEquals', ['foo'], 'x')
+        _assert_comparison_correct(choice.values[1],
+                                   'StringEquals', ['foo', 'bar'], 'y')
 
     @pytest.mark.parametrize(
         'text',
@@ -283,9 +279,7 @@ def sample_if_statement():
 class TestIfIR:
     def test_if(self, sample_if_statement):
         ir = C.IfIR.from_ast_node(sample_if_statement)
-        assert ir.test.predicate_name == 'StringEquals'
-        assert ir.test.predicate_variable == ['foo']
-        assert ir.test.predicate_literal == 'hello'
+        _assert_comparison_correct(ir.test, 'StringEquals', ['foo'], 'hello')
         _assert_is_assignment(ir.true_body.body[0], 'x', 'f', 'y')
         _assert_is_assignment(ir.false_body.body[0], 'z', 'g', 'u')
         _assert_is_assignment(ir.false_body.body[1], 's', 'h', 't')
