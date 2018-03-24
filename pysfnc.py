@@ -191,4 +191,10 @@ class FunctionCallIR:
             if not isinstance(nd.func, ast.Attribute):
                 # Bare call
                 return cls(nd.func.id, [a.id for a in nd.args], None)
-        raise ValueError('expected some_function(some, args)')
+            elif psf_attr(nd.func) == 'with_retry_spec':
+                return cls(nd.args[0].id,
+                           [a.id for a in nd.args[1].elts],
+                           lmap(RetrySpecIR.from_ast_node, nd.args[2:]))
+        raise ValueError('expected some_function(some, args)'
+                         ' or PSF.with_retry_spec(fun, (some, args),'
+                         ' retry_spec_1, retry_spec_2)')
