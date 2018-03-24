@@ -5,7 +5,7 @@ import textwrap
 
 
 def stmt_value(txt):
-    return ast.parse(txt).body[0]
+    return ast.parse(textwrap.dedent(txt)).body[0]
 
 
 def expr_value(txt):
