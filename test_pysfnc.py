@@ -302,13 +302,13 @@ def sample_if_statement():
 
 
 class TestIfIR:
-    @pytest.fixture(scope='module', params=[C.IfIR, C.StatementIR])
-    def if_class(self, request):
+    @pytest.fixture(scope='module',
+                    params=[C.IfIR.from_ast_node, mk_statement_empty_defs])
+    def factory(self, request):
         return request.param
 
-    @pytest.mark.xfail(reason='part-way through change')
-    def test_if(self, sample_if_statement, if_class):
-        ir = if_class.from_ast_node(sample_if_statement)
+    def test_if(self, sample_if_statement, factory):
+        ir = factory(sample_if_statement)
         _assert_comparison_correct(ir.test, 'StringEquals', ['foo'], 'hello')
         _assert_is_assignment(ir.true_body.body[0], 'x', 'f', 'y')
         _assert_is_assignment(ir.false_body.body[0], 'z', 'g', 'u')
