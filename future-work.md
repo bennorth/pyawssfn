@@ -54,3 +54,16 @@
 
 * Better and more thorough error-handling throughout, including
   more-helpful error messages when requirements are not met.
+
+
+# Higher-level research avenues
+
+## `Parallel` state
+
+Reconsider the design whereby the branches of a `Parallel` are
+self-contained state machines.  It seems like it would be possible to
+have each branch consist just of an entry-point state within the same
+top-level collection of states.  This would simplify the task of
+translating programming languages to state machines, and (as a small
+side-benefit) allow re-use of states between top-level execution and
+parallel-branch execution.
