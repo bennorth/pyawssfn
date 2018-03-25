@@ -186,3 +186,14 @@ consist of exactly one assignment.  As a state machine fragment, we
 create the assignment's fragment, then punch in a `Catch` field
 linking to all the fragments arising from the Python-level `except`
 clauses.
+
+
+# Lambda code
+
+For invoking functions via the Lambda machinery, we create a single
+'wrapper'/'dispatcher' Lambda.  This has a very short entry-point
+function, which finds the required function name and arg names from
+the input dict.  It then finds the required function in the original
+module, looks up the arguments from `locals`, and returns the result
+of calling that function on those args.  This is all created by the
+'wrapper-compiler', `pysfnwc.py`.
