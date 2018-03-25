@@ -123,3 +123,11 @@ A fragment of a state machine, representing some well-defined piece of
 the source program.  For example, an `if` statement.  Has a collection
 of states, knowledge of which state is the 'entry' state, and
 knowledge of which states, if any, are 'exit' states.
+
+## `FunctionCallIR`
+
+As a state-machine fragment, consists of a bit of a dance to pass the
+details of which function, called with which arguments, to the Lambda
+function.  Uses a `Pass` state to inject a 'call descriptor' into the
+state, and then a `Task` state to perform the call and inject the
+results into the appropriate slot within `locals`.
