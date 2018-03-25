@@ -161,3 +161,12 @@ A simple chain of fragments, each one having its next state set to the
 A `Choice` state with only one choice clause, corresponding to the
 `True` branch of the Python-level `if`.  The `else` clause becomes the
 `Default` state.
+
+## `TryIR`
+
+The state-machine semantics are such that only a single `Task` can
+have `Catch` clauses, so at the Python level, the body of a `try` must
+consist of exactly one assignment.  As a state machine fragment, we
+create the assignment's fragment, then punch in a `Catch` field
+linking to all the fragments arising from the Python-level `except`
+clauses.
