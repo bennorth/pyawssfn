@@ -29,6 +29,12 @@
 
 * Check for unused or undefined branches of a `Parallel` state.
 
+* Allow `Parallel` state to have `Retry` and `Catch` clauses.  In
+  Python, the latter is 'allow `PSF.parallel()` inside
+  `try`/`except`'.
+
+* Proper nested scopes for local variables of `Parallel` sub-tasks.
+
 * Allow keyword arguments in a `FunctionCallIR`.
 
 * Allow `if` without `else`.  Will be mildly fiddly because our
