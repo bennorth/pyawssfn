@@ -120,6 +120,22 @@ statements, it would be convenient for the translation tool to do the
 equivalent of an 'extract method' refactoring, make the extracted code
 accessible via the Lambda, and replace it with a call.
 
+## Loops
+
+It is entirely possible to have loops in a Step Function state
+machine.  On the Python level, it would be convenient to be able to
+use the familiar
+
+```python
+for x in xs:
+    do_stuff(x)
+```
+
+syntax.  Creation of a state-machine graph containing a cycle would be
+fairly straightforward, but we would also require a JSON-friendly
+iterator.  Initially, loops could be restricted just to iterating over
+ists or dicts.
+
 
 # Wider-scope questions
 
