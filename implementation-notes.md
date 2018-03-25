@@ -116,3 +116,10 @@ lower-level elements do not.
 Has a name, a collection of key/value pairs, and an optional 'next
 state name'.  Names are assigned incrementally via a class attribute.
 The 'value' is accessible via `value_as_json_obj()`.
+
+## `StateMachineFragmentIR`
+
+A fragment of a state machine, representing some well-defined piece of
+the source program.  For example, an `if` statement.  Has a collection
+of states, knowledge of which state is the 'entry' state, and
+knowledge of which states, if any, are 'exit' states.
