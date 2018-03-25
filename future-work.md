@@ -85,11 +85,17 @@ Automatic deduction, based on data-flow, of which operations are
 independent and could be gathered into a `Parallel` state.  Some care
 needed because there might be hidden dependencies: One function
 invocation might have some side-effect that the next computation
-relies on, but this is not explicit in the data-flow through
-variables.  E.g., in `c = foo(a); b = bar(a)` it seems that `foo(a)`
-and `bar(a)` can proceed independently, but perhaps `bar(a)` relies on
-some global state which `foo(a)` establishes, like a change to a
-database.
+relies on, without this being explicit in the data-flow through
+variables.  E.g., in the snippet
+
+```python
+c = foo(a)
+b = bar(a)
+```
+
+it seems that `foo(a)` and `bar(a)` can proceed independently, in
+parallel, but perhaps `bar(a)` relies on some global state which
+`foo(a)` establishes, like a change to a shared database.
 
 ## Directly interpret Python
 
