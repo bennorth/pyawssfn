@@ -29,16 +29,6 @@
 
 * Check for unused or undefined branches of a `Parallel` state.
 
-* Automatic deduction, based on data-flow, of which operations are
-  independent and could be gathered into a `Parallel` state.  Some
-  care needed because there might be hidden dependencies: One function
-  invocation might have some side-effect that the next computation
-  relies on, but this is not explicit in the data-flow through
-  variables.  E.g., in `c = foo(a); b = bar(a)` it seems that `foo(a)`
-  and `bar(a)` can proceed independently, but perhaps `bar(a)` relies
-  on some global state which `foo(a)` establishes, like a change to a
-  database.
-
 * Allow keyword arguments in a `FunctionCallIR`.
 
 * Allow `if` without `else`.  Will be mildly fiddly because our
@@ -67,3 +57,15 @@ top-level collection of states.  This would simplify the task of
 translating programming languages to state machines, and (as a small
 side-benefit) allow re-use of states between top-level execution and
 parallel-branch execution.
+
+## Automatic parallelisation
+
+Automatic deduction, based on data-flow, of which operations are
+independent and could be gathered into a `Parallel` state.  Some care
+needed because there might be hidden dependencies: One function
+invocation might have some side-effect that the next computation
+relies on, but this is not explicit in the data-flow through
+variables.  E.g., in `c = foo(a); b = bar(a)` it seems that `foo(a)`
+and `bar(a)` can proceed independently, but perhaps `bar(a)` relies on
+some global state which `foo(a)` establishes, like a change to a
+database.
