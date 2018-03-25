@@ -150,3 +150,8 @@ An assignment is from either a simple function call (with optional
 retry-specs), or from a `Parallel` call.  The source of the assignment
 knows how to construct the fragment, so the `AssignmentIR` delegates
 to its `source`.
+
+## `SuiteIR`
+
+A simple chain of fragments, each one having its next state set to the
+'enter state' of the following fragment.
