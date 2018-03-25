@@ -110,3 +110,9 @@ Objects of (one of the two subclasses of) this class have a method
 as one element of the `Choices` list of a `Choice` state, or as a
 component of such an element.  Top-level elements have a `Next` slot;
 lower-level elements do not.
+
+## `StateMachineStateIR`
+
+Has a name, a collection of key/value pairs, and an optional 'next
+state name'.  Names are assigned incrementally via a class attribute.
+The 'value' is accessible via `value_as_json_obj()`.
