@@ -51,3 +51,6 @@
 
 * Validate final state machine; e.g., there should be no unexpected
   states with un-filled 'next state' slots.
+
+* Better and more thorough error-handling throughout, including
+  more-helpful error messages when requirements are not met.
