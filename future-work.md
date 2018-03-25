@@ -102,6 +102,17 @@ parallel, but perhaps `bar(a)` relies on some global state which
 The state-machine runtime could effectively perform the compilation
 work itself, directly understanding Python.
 
+## Higher-level serialisation/deserialisation
+
+Currently everything has to be a JSON-friendly object (number, string,
+list/array, dictionary).  Passing objects more complex than this
+around between invocations of Lambda functions would need some
+thought.  For some situations it might be enough to add type
+annotations to the various functions and insert serialisation and
+deserialisation code into the 'wrapper'.  For big objects some level
+of indirection to/from an external object store (e.g., S3 buckets)
+might be required.
+
 
 # Wider-scope questions
 
