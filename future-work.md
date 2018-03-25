@@ -93,8 +93,8 @@ database.
 
 ## Directly interpret Python
 
-The state-machine runtime could perform this work itself, directly
-understanding Python.
+The state-machine runtime could effectively perform the compilation
+work itself, directly understanding Python.
 
 
 # Wider-scope questions
