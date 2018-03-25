@@ -58,6 +58,10 @@
 * Detection of tests like in `if x == 'JPEG'`, and conversion into
   equivalent use of `StringEquals`.
 
+* Avoid having to ferry entire state back/forth to the Lambda
+  machinery when only the function args and its return value actually
+  need to be communicated.
+
 * Implement `Wait` state.  Could be as simple as noticing a magic
   function `PSF.Wait(...)`.  Or could translate Python `time.sleep()`
   into `Wait`.
