@@ -1,0 +1,44 @@
+Code
+
+    analyse_text.py
+    pysfn.py
+    pysfnc.py
+    pysfnwc.py
+    test_analyse_text.py
+    test_pysfnc.py
+
+is hereby made available under the terms of the GNU General Public
+License as published by the Free Software Foundation, either version 3
+of the License, or (at your option) any later version.
+
+The file
+
+    LICENCE.txt
+
+contains a copy of the GNU General Public License v3; its copyright is
+held by the Free Software Foundation; it is is freely distributable in
+unmodified form.
+
+
+------------------------------------------------------------------------
+
+The non-code content
+
+    README.md
+    future-work.md
+    implementation-notes.md
+
+is hereby made available under the Creative Commons Attribution
+Share-Alike licence.  A summary of this licence, and link to the full
+version, can be found here:
+
+    http://creativecommons.org/licenses/by-sa/4.0/
+
+
+------------------------------------------------------------------------
+
+The generated content
+
+    stepfun.json
+
+is hereby placed into the public domain.
