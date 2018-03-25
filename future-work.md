@@ -113,6 +113,13 @@ deserialisation code into the 'wrapper'.  For big objects some level
 of indirection to/from an external object store (e.g., S3 buckets)
 might be required.
 
+## Extract in-line computation from top-level function
+
+If some part of the top-level computation is a short sequence of
+statements, it would be convenient for the translation tool to do the
+equivalent of an 'extract method' refactoring, make the extracted code
+accessible via the Lambda, and replace it with a call.
+
 
 # Wider-scope questions
 
