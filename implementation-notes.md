@@ -78,6 +78,9 @@ which have access to variables in the enclosing scope.  See
 slightly clunky to pass around the 'enclosing scope' of definitions
 but not too bad.
 
+There is precedent for the `(function, (arg1, arg2))` description of a
+function in, for example, `multiprocessing.Process()`.
+
 
 # Local variables as Step Function state
 
