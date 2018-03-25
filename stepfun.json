@@ -1,0 +1,196 @@
+{
+  "States": {
+    "n0": {
+      "Type": "Pass",
+      "Result": {
+        "function": "get_summary",
+        "arg_names": [
+          "text"
+        ]
+      },
+      "ResultPath": "$.call_descr",
+      "Next": "n1"
+    },
+    "n1": {
+      "Type": "Task",
+      "Resource": "LAMBDA-FUN-ARN",
+      "ResultPath": "$.locals.summary",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "TextTooShortError"
+          ],
+          "Next": "n2"
+        }
+      ],
+      "Next": "n18"
+    },
+    "n2": {
+      "Type": "Fail",
+      "Error": "MalformedText",
+      "Cause": "text too short"
+    },
+    "n18": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Or": [
+            {
+              "Variable": "$.locals.summary.head",
+              "StringEquals": "a"
+            },
+            {
+              "Variable": "$.locals.summary.head",
+              "StringEquals": "b"
+            }
+          ],
+          "Next": "n3"
+        }
+      ],
+      "Default": "n17"
+    },
+    "n3": {
+      "Type": "Pass",
+      "Result": {
+        "function": "augment_summary",
+        "arg_names": [
+          "text",
+          "summary"
+        ]
+      },
+      "ResultPath": "$.call_descr",
+      "Next": "n4"
+    },
+    "n4": {
+      "Type": "Task",
+      "Resource": "LAMBDA-FUN-ARN",
+      "ResultPath": "$.locals.summary",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 2,
+          "BackoffRate": 1.5
+        }
+      ],
+      "Next": "n11"
+    },
+    "n11": {
+      "Type": "Parallel",
+      "Branches": [
+        {
+          "States": {
+            "n5": {
+              "Type": "Pass",
+              "Result": {
+                "function": "get_n_vowels",
+                "arg_names": [
+                  "text"
+                ]
+              },
+              "ResultPath": "$.call_descr",
+              "Next": "n6"
+            },
+            "n6": {
+              "Type": "Task",
+              "Resource": "LAMBDA-FUN-ARN",
+              "ResultPath": "$.locals.result",
+              "Next": "n7"
+            },
+            "n7": {
+              "Type": "Succeed",
+              "InputPath": "$.locals.result"
+            }
+          },
+          "StartAt": "n5"
+        },
+        {
+          "States": {
+            "n8": {
+              "Type": "Pass",
+              "Result": {
+                "function": "get_n_spaces",
+                "arg_names": [
+                  "text"
+                ]
+              },
+              "ResultPath": "$.call_descr",
+              "Next": "n9"
+            },
+            "n9": {
+              "Type": "Task",
+              "Resource": "LAMBDA-FUN-ARN",
+              "ResultPath": "$.locals.result",
+              "Next": "n10"
+            },
+            "n10": {
+              "Type": "Succeed",
+              "InputPath": "$.locals.result"
+            }
+          },
+          "StartAt": "n8"
+        }
+      ],
+      "ResultPath": "$.locals.more_info",
+      "Next": "n12"
+    },
+    "n12": {
+      "Type": "Pass",
+      "Result": {
+        "function": "format_result",
+        "arg_names": [
+          "summary",
+          "more_info"
+        ]
+      },
+      "ResultPath": "$.call_descr",
+      "Next": "n13"
+    },
+    "n13": {
+      "Type": "Task",
+      "Resource": "LAMBDA-FUN-ARN",
+      "ResultPath": "$.locals.result",
+      "Next": "n19"
+    },
+    "n17": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.locals.summary.head",
+          "StringEquals": "c",
+          "Next": "n14"
+        }
+      ],
+      "Default": "n16"
+    },
+    "n14": {
+      "Type": "Pass",
+      "Result": {
+        "function": "format_c_result",
+        "arg_names": [
+          "summary"
+        ]
+      },
+      "ResultPath": "$.call_descr",
+      "Next": "n15"
+    },
+    "n15": {
+      "Type": "Task",
+      "Resource": "LAMBDA-FUN-ARN",
+      "ResultPath": "$.locals.result",
+      "Next": "n19"
+    },
+    "n16": {
+      "Type": "Fail",
+      "Error": "MalformedText",
+      "Cause": "wrong starting letter"
+    },
+    "n19": {
+      "Type": "Succeed",
+      "InputPath": "$.locals.result"
+    }
+  },
+  "StartAt": "n0"
+}
