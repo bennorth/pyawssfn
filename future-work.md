@@ -136,6 +136,17 @@ fairly straightforward, but we would also require a JSON-friendly
 iterator.  Initially, loops could be restricted just to iterating over
 ists or dicts.
 
+## Dependencies
+
+It is likely that any non-trivial application of these ideas would
+involve the use of external libraries.  It would be convenient if the
+tool could automatically detect dependencies, and bundle them up into
+the zip-file used to create the Lambda.  A solution requiring
+something along the lines of a `requirements.txt` might be a
+reasonable halfway house.  Could be combined with the 'deployment
+tools' thought, looking at things like [Zappa](https://www.zappa.io/)
+for ideas.
+
 
 # Wider-scope questions
 
