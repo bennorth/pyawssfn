@@ -4,6 +4,8 @@
   string predicates are handled, because we access the `s` attribute
   of the second argument.
 
+* Implement remaining predicate combinator, `Not`.
+
 * Allow list indexing in main function.  Currently only dictionary
   lookup works, but should be easy enough to also allow things like
   `PSF.StringEquals(things[7], 'hello')`.
@@ -52,6 +54,9 @@
   more-helpful error messages when requirements are not met.
 
 * Tools to automatically deploy Step Function and Lambda.
+
+* Detection of tests like in `if x == 'JPEG'`, and conversion into
+  equivalent use of `StringEquals`.
 
 
 # Higher-level research avenues
