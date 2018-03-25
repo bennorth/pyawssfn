@@ -1,5 +1,11 @@
 % Future work
 
+Ben North
+([GitHub](https://www.github.com/bennorth/)
+/ [blog](http://www.redfrontdoor.org/blog/)),
+March 2018
+
+
 # Small self-contained ideas
 
 * Implement remainder of choice-rule predicates.  Currently only

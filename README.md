@@ -1,5 +1,10 @@
 % Compiling Python into AWS Lambda / Step Function
 
+Ben North
+([GitHub](https://www.github.com/bennorth/)
+/ [blog](http://www.redfrontdoor.org/blog/)),
+March 2018
+
 
 # Background
 

@@ -1,5 +1,10 @@
 % Implementation notes
 
+Ben North
+([GitHub](https://www.github.com/bennorth/)
+/ [blog](http://www.redfrontdoor.org/blog/)),
+March 2018
+
 
 # Intermediate Representation
 
