@@ -86,14 +86,14 @@ class ChoiceConditionIR:
     @staticmethod
     def from_ast_node(nd):
         if isinstance(nd, ast.Call):
-            return TestComparison.from_ast_node(nd)
+            return TestComparisonIR.from_ast_node(nd)
         elif isinstance(nd, ast.BoolOp):
-            return TestCombinator.from_ast_node(nd)
+            return TestCombinatorIR.from_ast_node(nd)
         raise ValueError('expected Call')
 
 
 @attr.s
-class TestComparison(ChoiceConditionIR):
+class TestComparisonIR(ChoiceConditionIR):
     predicate_name = attr.ib()
     predicate_variable = attr.ib()
     predicate_literal = attr.ib()
@@ -114,7 +114,7 @@ class TestComparison(ChoiceConditionIR):
 
 
 @attr.s
-class TestCombinator(ChoiceConditionIR):
+class TestCombinatorIR(ChoiceConditionIR):
     opname = attr.ib()
     values = attr.ib()
 
