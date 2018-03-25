@@ -23,6 +23,10 @@ def find_state_by_name(frag, name):
     return candidates[0]
 
 
+def find_successor_state(frag, state):
+    return find_state_by_name(frag, state.next_state_name)
+
+
 def _test_factory_raises(nd, factory):
     with pytest.raises(ValueError):
         factory(nd)
@@ -386,7 +390,7 @@ class TestTryIR:
         frag = ir.as_fragment(translation_context)
         assert frag.n_states == 10  # Two per assignment
         s0 = frag.enter_state
-        s1 = find_state_by_name(frag, s0.next_state_name)
+        s1 = find_successor_state(frag, s0)
         _assert_state_pair_forms_assignment(s0, s1,
                                             translation_context,
                                             'x', 'f', ['y'])
@@ -394,13 +398,13 @@ class TestTryIR:
         assert len(catches) == 2
         assert catches[0]['ErrorEquals'] == ['BadThing']
         catch0_s0 = find_state_by_name(frag, catches[0]['Next'])
-        catch0_s1 = find_state_by_name(frag, catch0_s0.next_state_name)
+        catch0_s1 = find_successor_state(frag, catch0_s0)
         _assert_state_pair_forms_assignment(catch0_s0, catch0_s1,
                                             translation_context,
                                             'foo', 'bar', ['baz'])
         assert catches[1]['ErrorEquals'] == ['WorseThing']
         catch1_s0 = find_state_by_name(frag, catches[1]['Next'])
-        catch1_s1 = find_state_by_name(frag, catch1_s0.next_state_name)
+        catch1_s1 = find_successor_state(frag, catch1_s0)
         _assert_state_pair_forms_assignment(catch1_s0, catch1_s1,
                                             translation_context,
                                             'qux', 'bar', ['baz'])
@@ -439,12 +443,12 @@ class TestIfIR:
         choices = frag.enter_state.fields['Choices']
         assert len(choices) == 1
         true_branch_s0 = find_state_by_name(frag, choices[0]['Next'])
-        true_branch_s1 = find_state_by_name(frag, true_branch_s0.next_state_name)
+        true_branch_s1 = find_successor_state(frag, true_branch_s0)
         _assert_state_pair_forms_assignment(true_branch_s0, true_branch_s1,
                                             translation_context,
                                             'x', 'f', ['y'])
         false_branch_s0 = find_state_by_name(frag, frag.enter_state.fields['Default'])
-        false_branch_s1 = find_state_by_name(frag, false_branch_s0.next_state_name)
+        false_branch_s1 = find_successor_state(frag, false_branch_s0)
         _assert_state_pair_forms_assignment(false_branch_s0, false_branch_s1,
                                             translation_context,
                                             'z', 'g', ['u'])
