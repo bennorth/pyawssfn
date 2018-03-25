@@ -147,6 +147,10 @@ reasonable halfway house.  Could be combined with the 'deployment
 tools' thought, looking at things like [Zappa](https://www.zappa.io/)
 for ideas.
 
+## Integration with `git`
+
+And most likely GitHub in particular.
+
 
 # Wider-scope questions
 
