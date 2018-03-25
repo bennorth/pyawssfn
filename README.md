@@ -180,3 +180,11 @@ to get the output
 
 * [Implementation notes](implementation-notes.md)
 * [Future work](future-work.md)
+
+
+---
+
+This document: Copyright 2018 Ben North; licensed under
+[CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/)
+
+See the file `COPYING` for full licensing details.

@@ -194,3 +194,11 @@ specifications?  If all Lambda invocations were pure (or, more weakly,
 'idempotent' might be enough), then the runtime could gather
 statistics on each Lambda's reliability, how failures tend to be
 clustered temporally, etc., and deduce suitable retry specs.
+
+
+---
+
+This document: Copyright 2018 Ben North; licensed under
+[CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/)
+
+See the file `COPYING` for full licensing details.

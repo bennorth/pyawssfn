@@ -205,3 +205,11 @@ the input dict.  It then finds the required function in the original
 module, looks up the arguments from `locals`, and returns the result
 of calling that function on those args.  This is all created by the
 'wrapper-compiler', `pysfnwc.py`.
+
+
+---
+
+This document: Copyright 2018 Ben North; licensed under
+[CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/)
+
+See the file `COPYING` for full licensing details.
