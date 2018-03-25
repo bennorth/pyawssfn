@@ -119,11 +119,11 @@ class TestSupportFunctions:
 
 
 class TestChoice:
-    @pytest.fixture(scope='module', params=[C.TestComparison, C.ChoiceCondition])
+    @pytest.fixture(scope='module', params=[C.TestComparison, C.ChoiceConditionIR])
     def cmp_class(self, request):
         return request.param
 
-    @pytest.fixture(scope='module', params=[C.TestCombinator, C.ChoiceCondition])
+    @pytest.fixture(scope='module', params=[C.TestCombinator, C.ChoiceConditionIR])
     def comb_class(self, request):
         return request.param
 
@@ -173,7 +173,7 @@ class TestChoice:
 
     def test_comparison_conversion_to_smr(self):
         val = expr_value('PSF.StringEquals(foo, "x")')
-        choice = C.ChoiceCondition.from_ast_node(val)
+        choice = C.ChoiceConditionIR.from_ast_node(val)
         smr = choice.as_choice_rule_smr('wash_dishes')
         assert smr == {'Variable': '$.locals.foo',
                        'StringEquals': 'x',
@@ -182,7 +182,7 @@ class TestChoice:
     def test_combinator_conversion_to_smr(self):
         val = expr_value('PSF.StringEquals(foo, "x")'
                          ' or PSF.StringEquals(foo["bar"], "y")')
-        choice = C.ChoiceCondition.from_ast_node(val)
+        choice = C.ChoiceConditionIR.from_ast_node(val)
         smr = choice.as_choice_rule_smr('wash_dishes')
         assert smr == {'Or': [{'Variable': '$.locals.foo',
                                'StringEquals': 'x'},

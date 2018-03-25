@@ -82,7 +82,7 @@ def maybe_with_next(base_fields, next_state_name):
 
 ########################################################################
 
-class ChoiceCondition:
+class ChoiceConditionIR:
     @staticmethod
     def from_ast_node(nd):
         if isinstance(nd, ast.Call):
@@ -93,7 +93,7 @@ class ChoiceCondition:
 
 
 @attr.s
-class TestComparison(ChoiceCondition):
+class TestComparison(ChoiceConditionIR):
     predicate_name = attr.ib()
     predicate_variable = attr.ib()
     predicate_literal = attr.ib()
@@ -114,7 +114,7 @@ class TestComparison(ChoiceCondition):
 
 
 @attr.s
-class TestCombinator(ChoiceCondition):
+class TestCombinator(ChoiceConditionIR):
     opname = attr.ib()
     values = attr.ib()
 
@@ -127,7 +127,7 @@ class TestCombinator(ChoiceCondition):
                 opname = 'And'
             else:
                 raise ValueError('expected Or or And')
-            return cls(opname, lmap(ChoiceCondition.from_ast_node, nd.values))
+            return cls(opname, lmap(ChoiceConditionIR.from_ast_node, nd.values))
         raise ValueError('expected BoolOp')
 
     def as_choice_rule_smr(self, next_state_name):
@@ -360,7 +360,7 @@ class IfIR(StatementIR):
 
     @classmethod
     def from_ast_node(cls, nd):
-        return cls(ChoiceCondition.from_ast_node(nd.test),
+        return cls(ChoiceConditionIR.from_ast_node(nd.test),
                    SuiteIR.from_ast_nodes(nd.body),
                    SuiteIR.from_ast_nodes(nd.orelse))
 
