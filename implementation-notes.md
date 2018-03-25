@@ -131,3 +131,7 @@ details of which function, called with which arguments, to the Lambda
 function.  Uses a `Pass` state to inject a 'call descriptor' into the
 state, and then a `Task` state to perform the call and inject the
 results into the appropriate slot within `locals`.
+
+## `RaiseIR`
+
+State-machine fragment is just one `Fail` state.
