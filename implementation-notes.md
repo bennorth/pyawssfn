@@ -135,3 +135,8 @@ results into the appropriate slot within `locals`.
 ## `RaiseIR`
 
 State-machine fragment is just one `Fail` state.
+
+## `ReturnIR`
+
+State-machine fragment is just one `Succeed` state, pulling out the
+appropriate variable from `$.locals` via its `InputPath`.
