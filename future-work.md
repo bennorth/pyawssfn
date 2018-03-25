@@ -69,3 +69,8 @@ variables.  E.g., in `c = foo(a); b = bar(a)` it seems that `foo(a)`
 and `bar(a)` can proceed independently, but perhaps `bar(a)` relies on
 some global state which `foo(a)` establishes, like a change to a
 database.
+
+## Directly interpret Python
+
+The state-machine runtime could perform this work itself, directly
+understanding Python.
