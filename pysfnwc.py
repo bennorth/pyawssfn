@@ -13,7 +13,8 @@ import inner.{code_modulename} as inner_module
 
 def dispatch(event, context):
     fun = getattr(inner_module, event['call_descr']['function'])
-    args = [event['locals'][arg_name] for arg_name in event['call_descr']['arg_names']]
+    args = [event['locals'][arg_name]
+            for arg_name in event['call_descr']['arg_names']]
     return fun(*args)
 """
 

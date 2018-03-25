@@ -119,11 +119,13 @@ class TestSupportFunctions:
 
 
 class TestChoice:
-    @pytest.fixture(scope='module', params=[C.TestComparisonIR, C.ChoiceConditionIR])
+    @pytest.fixture(scope='module',
+                    params=[C.TestComparisonIR, C.ChoiceConditionIR])
     def cmp_class(self, request):
         return request.param
 
-    @pytest.fixture(scope='module', params=[C.TestCombinatorIR, C.ChoiceConditionIR])
+    @pytest.fixture(scope='module',
+                    params=[C.TestCombinatorIR, C.ChoiceConditionIR])
     def comb_class(self, request):
         return request.param
 
