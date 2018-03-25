@@ -42,6 +42,10 @@ def format_c_result(summary):
     return f'text starts with "c"; look: "{summary["head"]}"'
 
 
+# Top-level function, very loosely inspired by the control flow in
+#
+# https://github.com/aws-samples/lambda-refarch-imagerecognition
+#
 @PSF.main
 def summarise(text):
     try:
