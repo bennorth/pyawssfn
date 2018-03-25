@@ -155,3 +155,9 @@ to its `source`.
 
 A simple chain of fragments, each one having its next state set to the
 'enter state' of the following fragment.
+
+## `IfIR`
+
+A `Choice` state with only one choice clause, corresponding to the
+`True` branch of the Python-level `if`.  The `else` clause becomes the
+`Default` state.
