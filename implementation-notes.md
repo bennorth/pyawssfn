@@ -140,3 +140,10 @@ State-machine fragment is just one `Fail` state.
 
 State-machine fragment is just one `Succeed` state, pulling out the
 appropriate variable from `$.locals` via its `InputPath`.
+
+## `AssignmentIR`
+
+An assignment is from either a simple function call (with optional
+retry-specs), or from a `Parallel` call.  The source of the assignment
+knows how to construct the fragment, so the `AssignmentIR` delegates
+to its `source`.
