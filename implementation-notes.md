@@ -124,6 +124,9 @@ the source program.  For example, an `if` statement.  Has a collection
 of states, knowledge of which state is the 'entry' state, and
 knowledge of which states, if any, are 'exit' states.
 
+The whole fragment can be connected to its correct 'next' state via
+the `set_next_state()` method.
+
 ## `FunctionCallIR`
 
 As a state-machine fragment, consists of a bit of a dance to pass the
