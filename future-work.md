@@ -1,4 +1,4 @@
-% Future work
+# Future work
 
 Ben North
 ([GitHub](https://www.github.com/bennorth/)

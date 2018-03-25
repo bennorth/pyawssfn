@@ -1,4 +1,4 @@
-% Implementation notes
+# Implementation notes
 
 Ben North
 ([GitHub](https://www.github.com/bennorth/)
