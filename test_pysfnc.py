@@ -444,12 +444,15 @@ class TestParallelIR:
 
 
 class TestSuiteIR:
-    def test_assignments(self):
-        body = suite_value("""
+    @pytest.fixture(scope='module')
+    def sample_suite(self):
+        return suite_value("""
             foo = bar(baz)
             qux = hello(world)
         """)
-        ir = C.SuiteIR.from_ast_nodes(body)
+
+    def test_assignments(self, sample_suite):
+        ir = C.SuiteIR.from_ast_nodes(sample_suite)
         _assert_is_assignment(ir.body[0], 'foo', 'bar', 'baz')
         _assert_is_assignment(ir.body[1], 'qux', 'hello', 'world')
 
