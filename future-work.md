@@ -157,6 +157,13 @@ The original Python code presumably has unit tests.  It would be
 convenient if these could be converted into tests which performed
 invocations of the Step Function.
 
+## Optimise resulting state machine
+
+AWS bills Step Function invocations according to how many transitions
+the state machine makes.  Could the structure be optimised so as to
+minimise the expected number of transitions, under appropriate
+assumptions for what the input is likely to look like?
+
 
 # Wider-scope questions
 
