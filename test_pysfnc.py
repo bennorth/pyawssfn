@@ -456,6 +456,21 @@ class TestSuiteIR:
         _assert_is_assignment(ir.body[0], 'foo', 'bar', 'baz')
         _assert_is_assignment(ir.body[1], 'qux', 'hello', 'world')
 
+    def test_as_fragment(self, sample_suite, translation_context):
+        ir = C.SuiteIR.from_ast_nodes(sample_suite)
+        frag = ir.as_fragment(translation_context)
+        assert frag.n_states == 4  # Two per assignment
+        states = frag.all_states
+        assert frag.enter_state is states[0]
+        _assert_state_pair_forms_assignment(states[0], states[1],
+                                            translation_context,
+                                            'foo', 'bar', ['baz'])
+        assert states[1].next_state_name == states[2].name
+        _assert_state_pair_forms_assignment(states[2], states[3],
+                                            translation_context,
+                                            'qux', 'hello', ['world'])
+        assert frag.exit_states == [states[3]]
+
 
 class TestStateMachineStateIR:
     def test_construction(self):
