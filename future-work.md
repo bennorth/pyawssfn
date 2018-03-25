@@ -66,6 +66,9 @@
   function `PSF.Wait(...)`.  Or could translate Python `time.sleep()`
   into `Wait`.
 
+* Special entry state to extract fields from input corresponding to
+  function parameter names, and create an initial `$.locals`.
+
 * Allow use of functions called only for side-effect.  (I.e., just
   `foo()` not `x = bar(y)`.)
 
