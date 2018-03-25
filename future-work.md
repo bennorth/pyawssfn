@@ -62,6 +62,9 @@
   function `PSF.Wait(...)`.  Or could translate Python `time.sleep()`
   into `Wait`.
 
+* Allow use of functions called only for side-effect.  (I.e., just
+  `foo()` not `x = bar(y)`.)
+
 
 # Higher-level research avenues
 
