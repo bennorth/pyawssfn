@@ -58,6 +58,10 @@
 * Detection of tests like in `if x == 'JPEG'`, and conversion into
   equivalent use of `StringEquals`.
 
+* Implement `Wait` state.  Could be as simple as noticing a magic
+  function `PSF.Wait(...)`.  Or could translate Python `time.sleep()`
+  into `Wait`.
+
 
 # Higher-level research avenues
 
