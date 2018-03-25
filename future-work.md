@@ -151,6 +151,12 @@ for ideas.
 
 And most likely GitHub in particular.
 
+## Conversion of unit tests
+
+The original Python code presumably has unit tests.  It would be
+convenient if these could be converted into tests which performed
+invocations of the Step Function.
+
 
 # Wider-scope questions
 
