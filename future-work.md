@@ -45,6 +45,8 @@
 * Better and more thorough error-handling throughout, including
   more-helpful error messages when requirements are not met.
 
+* Tools to automatically deploy Step Function and Lambda.
+
 
 # Higher-level research avenues
 
