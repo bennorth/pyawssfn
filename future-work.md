@@ -48,3 +48,6 @@
   know how to set the correct field of the correct object?
   Alternatively, always create an `else` branch at the State Machine
   level, consisting of a single no-op `Pass` state.
+
+* Validate final state machine; e.g., there should be no unexpected
+  states with un-filled 'next state' slots.
