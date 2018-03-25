@@ -79,16 +79,6 @@
 
 # Higher-level research avenues
 
-## `Parallel` state
-
-Reconsider the design whereby the branches of a `Parallel` are
-self-contained state machines.  It seems like it would be possible to
-have each branch consist just of an entry-point state within the same
-top-level collection of states.  This would simplify the task of
-translating programming languages to state machines, and (as a small
-side-benefit) allow re-use of states between top-level execution and
-parallel-branch execution.
-
 ## Automatic parallelisation
 
 Automatic deduction, based on data-flow, of which operations are
@@ -105,3 +95,20 @@ database.
 
 The state-machine runtime could perform this work itself, directly
 understanding Python.
+
+
+# Wider-scope questions
+
+The following questions are not strictly within the scope of a tool
+which translates Python code to a Step Function, but arose while doing
+the work:
+
+## Rethink `Parallel` state
+
+Reconsider the current design whereby the branches of a `Parallel` are
+self-contained state machines.  It seems like it would be possible to
+have each branch consist just of an entry-point state-name, within the
+same top-level collection of states.  This could simplify the task of
+translating programming languages to state machines, and (as a small
+side-benefit) allow re-use of states between top-level execution and
+parallel-branch execution.
