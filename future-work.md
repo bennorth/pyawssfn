@@ -112,3 +112,11 @@ same top-level collection of states.  This could simplify the task of
 translating programming languages to state machines, and (as a small
 side-benefit) allow re-use of states between top-level execution and
 parallel-branch execution.
+
+## Automatically learn appropriate retry specifications
+
+Could the programmer be freed from having to specify appropriate retry
+specifications?  If all Lambda invocations were pure (or, more weakly,
+'idempotent' might be enough), then the runtime could gather
+statistics on each Lambda's reliability, how failures tend to be
+clustered temporally, etc., and deduce suitable retry specs.
