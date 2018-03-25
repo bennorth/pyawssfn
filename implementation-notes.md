@@ -138,6 +138,14 @@ function.  Uses a `Pass` state to inject a 'call descriptor' into the
 state, and then a `Task` state to perform the call and inject the
 results into the appropriate slot within `locals`.
 
+## `ParallelIR`
+
+Because each branch of a `Parallel` state is its own self-contained
+state machine, we find that state-machine and then 'render' it into
+its JSON-friendly form.  All such forms are gathered together into the
+resulting `Parallel` state representation, which is then the sole
+state of the resulting fragment.
+
 ## `RaiseIR`
 
 State-machine fragment is just one `Fail` state.
@@ -153,6 +161,8 @@ An assignment is from either a simple function call (with optional
 retry-specs), or from a `Parallel` call.  The source of the assignment
 knows how to construct the fragment, so the `AssignmentIR` delegates
 to its `source`.
+
+The source can be either a `FunctionCallIR` or a `ParallelIR`.
 
 ## `SuiteIR`
 
