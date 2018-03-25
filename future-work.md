@@ -40,3 +40,11 @@
   database.
 
 * Allow keyword arguments in a `FunctionCallIR`.
+
+* Allow `if` without `else`.  Will be mildly fiddly because our
+  concept of connecting up the 'next state' can't currently reach
+  inside the `Choice` state to set its `Default` field.  Could
+  possibly replace `exit_states` with a collection of closures which
+  know how to set the correct field of the correct object?
+  Alternatively, always create an `else` branch at the State Machine
+  level, consisting of a single no-op `Pass` state.
