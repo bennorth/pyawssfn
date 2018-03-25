@@ -127,6 +127,9 @@ knowledge of which states, if any, are 'exit' states.
 The whole fragment can be connected to its correct 'next' state via
 the `set_next_state()` method.
 
+Can be turned into a JSON-friendly object via `as_json_obj()`.
+Components are stored as possibly nested JSON-friendly objects.
+
 ## `FunctionCallIR`
 
 As a state-machine fragment, consists of a bit of a dance to pass the
