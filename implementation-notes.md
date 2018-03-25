@@ -133,7 +133,10 @@ the `set_next_state()` method.
 Can be turned into a JSON-friendly object via `as_json_obj()`.
 Components are stored as possibly nested JSON-friendly objects.
 
-## `FunctionCallIR`
+The following objects can be converted into fragments, via an
+`as_fragment()` method:
+
+### `FunctionCallIR`
 
 As a state-machine fragment, consists of a bit of a dance to pass the
 details of which function, called with which arguments, to the Lambda
@@ -141,7 +144,7 @@ function.  Uses a `Pass` state to inject a 'call descriptor' into the
 state, and then a `Task` state to perform the call and inject the
 results into the appropriate slot within `locals`.
 
-## `ParallelIR`
+### `ParallelIR`
 
 Because each branch of a `Parallel` state is its own self-contained
 state machine, we find that state-machine and then 'render' it into
@@ -149,16 +152,16 @@ its JSON-friendly form.  All such forms are gathered together into the
 resulting `Parallel` state representation, which is then the sole
 state of the resulting fragment.
 
-## `RaiseIR`
+### `RaiseIR`
 
 State-machine fragment is just one `Fail` state.
 
-## `ReturnIR`
+### `ReturnIR`
 
 State-machine fragment is just one `Succeed` state, pulling out the
 appropriate variable from `$.locals` via its `InputPath`.
 
-## `AssignmentIR`
+### `AssignmentIR`
 
 An assignment is from either a simple function call (with optional
 retry-specs), or from a `Parallel` call.  The source of the assignment
@@ -167,18 +170,18 @@ to its `source`.
 
 The source can be either a `FunctionCallIR` or a `ParallelIR`.
 
-## `SuiteIR`
+### `SuiteIR`
 
 A simple chain of fragments, each one having its next state set to the
 'enter state' of the following fragment.
 
-## `IfIR`
+### `IfIR`
 
 A `Choice` state with only one choice clause, corresponding to the
 `True` branch of the Python-level `if`.  The `else` clause becomes the
 `Default` state.
 
-## `TryIR`
+### `TryIR`
 
 The state-machine semantics are such that only a single `Task` can
 have `Catch` clauses, so at the Python level, the body of a `try` must
