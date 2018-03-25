@@ -45,6 +45,8 @@ March 2018
 
 * Proper nested scopes for local variables of `Parallel` sub-tasks.
 
+* Provide defaults for retry-spec tuples, in line with JSON.
+
 * Allow keyword arguments in a `FunctionCallIR`.
 
 * Allow `if` without `else`.  Will be mildly fiddly because our
