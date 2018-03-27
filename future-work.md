@@ -198,6 +198,13 @@ specifications?  If all Lambda invocations were pure (or, more weakly,
 statistics on each Lambda's reliability, how failures tend to be
 clustered temporally, etc., and deduce suitable retry specs.
 
+## Similar tooling for Apache Airflow
+
+[Airflow](https://github.com/apache/incubator-airflow) allows the
+construction of workflow DAGs in code.  There might be scope to write
+a compiler, similar to the one in this repo, to extract the data-flow
+from Python code and convert it into an Airflow DAG.
+
 
 ---
 
