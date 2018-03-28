@@ -42,6 +42,16 @@ it in two ways:
 The ability to run your logic as a normal Python program allows local
 development and testing.
 
+
+# Status
+
+Although I think the tools here do show that the idea has promise,
+there would be [plenty still to do](future-work.md) to make them
+useful for production purposes.  I am very unlikely to have time in
+the near future to develop this any further, but the source is all
+here (under GPL) if anybody wants to build on it.
+
+
 # General approach
 
 ## Compile Python code to Step Function state machine
