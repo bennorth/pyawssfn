@@ -1,6 +1,6 @@
 import pytest
-import analyse_text as A
-import pysfn as PSF
+from examples import analyse_text as A
+from pysfn import definition as PSF
 
 
 class TestAnalysis:

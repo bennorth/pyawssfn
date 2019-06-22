@@ -83,8 +83,6 @@ March 2018
 * Allow use of functions called only for side-effect.  (I.e., just
   `foo()` not `x = bar(y)`.)
 
-* Proper `setup.py`, `requirements.txt` etc. for these tools.
-
 
 # Higher-level research avenues
 
