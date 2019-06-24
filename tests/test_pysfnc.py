@@ -1,5 +1,5 @@
 import pytest
-import pysfnc as C
+from pysfn.tools import compile as C
 import ast
 import textwrap
 from functools import partial

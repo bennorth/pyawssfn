@@ -7,6 +7,13 @@ March 2018
 [(repository root)](https://github.com/bennorth/pyawssfn)
 
 
+## Installation
+
+```bash
+pip install .
+```
+
+
 # Background
 
 Among the components of Amazon Web Services are the following two
@@ -56,7 +63,8 @@ here (under GPL) if anybody wants to build on it.
 
 ## Compile Python code to Step Function state machine
 
-The ['Python to Step Function compiler' tool](pysfnc.py), `pysfnc.py`,
+The ['Python to Step Function compiler' tool](src/pysfn/tools/compile.py),
+`pysfn.tools.compile`,
 reads in a file of Python code and emits JSON corresponding to the
 control flow of a specified 'entry point' function in that code.  The
 resulting JSON is used for the creation of an AWS Step Function.
@@ -68,8 +76,9 @@ Step Function will have.
 
 ## Wrap original Python code as Lambda function
 
-The ['Python to Step Function wrapper compiler' tool](pysfnwc.py),
-`pysfnwc.py`, constructs a zip-file containing the original Python
+The ['Python to Step Function wrapper compiler' tool](
+src/pysfn/tools/gen_lambda.py), `pysfn.tools.gen_lambda`,
+constructs a zip-file containing the original Python
 code together with a small wrapper.  The zip-file is suitable for
 uploading as an AWS Lambda function.  This gives the top-level Step
 Function access to what were callees in the original Python code.
@@ -83,25 +92,19 @@ creation of
 [roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html),
 etc.  See Amazon's documentation on these points.
 
-## Prerequisites
-
-Python 3.6, with
-```bash
-pip install click
-pip install attrs
-pip install pytest  # To be able to run unit tests
-```
 
 ## Run unit tests on original Python
 
-The [original Python source](analyse_text.py) consists of a main
+The [original Python source](examples/analyse_text.py) consists of a
+main
 driver function, with a collection of small functions used by the main
 function.  It is very simple, performing a few computations on an
 input string, but serves the purpose of illustrating the compilation
 process.  It has a suite of unit tests:
 
 ```bash
-pytest test_analyse_text.py
+pip install .[dev]  # install development dependencies
+pytest tests/test_analyse_text.py
 ```
 
 Output:
@@ -112,7 +115,7 @@ Output:
 ## Wrap original Python ready for Lambda
 
 ```bash
-python pysfnwc.py analyse_text.py lambda-function.zip
+python -m pysfn.tools.gen_lambda examples/analyse_text.py lambda-function.zip
 unzip -l lambda-function.zip
 ```
 
@@ -135,11 +138,11 @@ and note its ARN for use in the next step.
 ## Compile original Python into Step Function JSON
 
 ```bash
-python pysfnc.py analyse_text.py LAMBDA-FUN-ARN > stepfun.json
-cat stepfun.json
+python -m pysfn.tools.compile examples/analyse_text.py LAMBDA-FUN-ARN > examples/stepfun.json
+cat examples/stepfun.json
 ```
 
-Output (the [full output](stepfun.json) is 196 lines):
+Output (the [full output](examples/stepfun.json) is 196 lines):
 ```
 {
   "States": {

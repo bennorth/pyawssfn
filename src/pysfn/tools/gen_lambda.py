@@ -24,6 +24,7 @@ import os.path
 from contextlib import closing
 
 
+package_dir = os.path.split(os.path.split(__file__)[0])[0]
 template = """\
 import sys
 sys.path.insert(0, './inner')
@@ -49,12 +50,13 @@ def zinfo(fname):
 @click.argument('code_filename')
 @click.argument('zip_filename')
 def compile_zipfile(code_filename, zip_filename):
-    code_modulename = os.path.splitext(code_filename)[0]
+    code_basename = os.path.basename(code_filename)
+    code_modulename = os.path.splitext(code_basename)[0]
     handler_content = template.format(code_modulename=code_modulename)
     with closing(zipfile.ZipFile(zip_filename, 'x')) as f_zip:
         f_zip.writestr(zinfo('handler.py'), handler_content)
-        f_zip.write(code_filename, 'inner/{}'.format(code_filename))
-        f_zip.write('pysfn.py')
+        f_zip.write(code_filename, 'inner/{}'.format(code_basename))
+        f_zip.write(os.path.join(package_dir, 'definition.py'), 'pysfn.py')
 
 
 if __name__ == '__main__':

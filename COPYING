@@ -1,11 +1,9 @@
 Code
 
-    analyse_text.py
-    pysfn.py
-    pysfnc.py
-    pysfnwc.py
-    test_analyse_text.py
-    test_pysfnc.py
+    examples/analyse_text.py
+    all in src/
+    all in tests/
+    setup.py
 
 is hereby made available under the terms of the GNU General Public
 License as published by the Free Software Foundation, either version 3
@@ -39,6 +37,6 @@ version, can be found here:
 
 The generated content
 
-    stepfun.json
+    examples/stepfun.json
 
 is hereby placed into the public domain.
